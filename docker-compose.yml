@@ -1,0 +1,32 @@
+services:
+  medicinelog:
+    image: ${DOCKER_REGISTRY-}medicinelog
+    build:
+      context: .
+      dockerfile: MedicineLog/Dockerfile
+
+  postgres:
+    image: pgautoupgrade/pgautoupgrade:17-bookworm
+    restart: always
+    environment:
+      - TZ=${TIMEZONE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - default
+
+volumes:
+  signalCliApi_data:
+  influx_data:
+  postgres_data:
+  
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.26.0.0/16

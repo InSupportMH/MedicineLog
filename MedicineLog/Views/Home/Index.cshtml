@@ -1,0 +1,61 @@
+﻿@model MedicineRegViewModel
+@{
+    ViewData["Title"] = "Registrera";
+}
+
+<div class="card reg-card border-0">
+    <div class="card-body p-4 p-md-5">
+        <div class="d-flex gap-3 align-items-start mb-4">
+            <div class="logo-box">LOGO</div>
+
+            <div>
+                <h1 class="h4 mb-1 fw-bold">Välkommen!</h1>
+                <div class="text-secondary fw-semibold">Registrera medhavda läkemedel här.</div>
+            </div>
+        </div>
+
+        <form asp-action="Register" asp-controller="Medication" method="post" class="needs-validation" novalidate>
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="FirstName" class="form-label fw-semibold"></label>
+                <input asp-for="FirstName" class="form-control" placeholder="Ange förnamn" autocomplete="given-name" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="LastName" class="form-label fw-semibold"></label>
+                <input asp-for="LastName" class="form-control" placeholder="Ange efternamn" autocomplete="family-name" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="MedicationName" class="form-label fw-semibold"></label>
+                <input asp-for="MedicationName" class="form-control" placeholder="Ange läkemedlets namn" autocomplete="off" />
+                <span asp-validation-for="MedicationName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Quantity" class="form-label fw-semibold"></label>
+                <input asp-for="Quantity" class="form-control" placeholder="Ange antal" inputmode="numeric" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Registrera</button>
+            <button type="button" class="btn btn-outline-secondary w-100" id="btnClear">Rensa</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        document.getElementById('btnClear')?.addEventListener('click', function () {
+            const form = this.closest('form');
+            form?.reset();
+            // clear validation messages
+            form?.querySelectorAll('.text-danger').forEach(e => e.textContent = '');
+        });
+    </script>
+}
