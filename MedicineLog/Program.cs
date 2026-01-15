@@ -1,15 +1,22 @@
-using Microsoft.AspNetCore.Identity;
+using MedicineLog.Application.Terminals;
 using MedicineLog.Data;
+using MedicineLog.Data.Entities;
+using MedicineLog.Infrastructure.Auth;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddDefaultIdentity<ApplicationUser>()
+builder.Services.AddDefaultIdentity<AppUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
 
 var app = builder.Build();
+
+app.UseMiddleware<TerminalSessionMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
