@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicineLog.Data.Entities
 {
     public sealed class TerminalSession
     {
+        [Key]
         public int Id { get; set; }
 
         public int TerminalId { get; set; }

@@ -5,6 +5,14 @@ namespace MedicineLog.Data.Entities
 {
     public sealed class AppUser : IdentityUser
     {
+        public AppUser()
+        {
+        }
+
+        public AppUser(string name)
+        {
+            UserName = name;
+        }
         // Auditor can be granted access to multiple sites
         public ICollection<AuditorSiteAccess> AuditorSiteAccesses { get; set; } = new List<AuditorSiteAccess>();
     }

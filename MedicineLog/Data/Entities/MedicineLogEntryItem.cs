@@ -5,6 +5,7 @@ namespace MedicineLog.Data.Entities
 {
     public sealed class MedicineLogEntryItem
     {
+        [Key]
         public int Id { get; set; }
 
         public int LogEntryId { get; set; }

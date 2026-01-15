@@ -1,11 +1,13 @@
 ﻿using Microsoft.Extensions.Logging.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace MedicineLog.Data.Entities
 {
     public sealed class Site
     {
+        [Key]
         public int Id { get; set; }
 
         public string Name { get; set; } = null!;

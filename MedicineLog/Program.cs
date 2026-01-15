@@ -3,6 +3,7 @@ using MedicineLog.Data;
 using MedicineLog.Data.Entities;
 using MedicineLog.Infrastructure.Auth;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultIdentity<AppUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnectionString")));
+
+
 
 builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
 
