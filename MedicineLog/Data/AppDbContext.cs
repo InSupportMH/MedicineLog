@@ -1,6 +1,7 @@
 ﻿using MedicineLog.Data.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Logging.Abstractions;
 using System;
@@ -27,46 +28,56 @@ namespace MedicineLog.Data
             MakeTableNamesCompatibleWithPostgres(modelBuilder);
         }
 
+
         void MakeTableNamesCompatibleWithPostgres(ModelBuilder modelBuilder)
         {
             var dbSets = GetType()
                 .GetProperties()
                 .Where(p => p.PropertyType.IsGenericType &&
-                       p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
+                            p.PropertyType.GetGenericTypeDefinition() == typeof(DbSet<>))
                 .ToDictionary(p => p.PropertyType.GetGenericArguments()[0], p => p.Name);
 
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
-                if (dbSets.TryGetValue(entity.ClrType, out var dbSetName))
-                {
-                    // Convert the DbSet name to snake_case
-                    var tableName = dbSetName.ToSnakeCase();
-                    modelBuilder.Entity(entity.Name).ToTable(tableName);
-                }
-                else
-                {
-                    // Fallback to default table name if no DbSet property found
-                    var currentTableName = modelBuilder.Entity(entity.ClrType).Metadata.GetDefaultTableName();
-                    if (currentTableName is not null)
-                    {
-                        var tableName = currentTableName.SanitizeTableName().ToSnakeCase();
-                        modelBuilder.Entity(entity.Name).ToTable(tableName);
-                    }
-                }
+                // 🔑 Skip owned / keyless / non-table mapped types (e.g., IdentityPasskeyData)
+                if (entityType.IsOwned())
+                    continue;
 
-                // Convert each column name within the table to snake case
-                foreach (var property in entity.GetProperties())
+                if (entityType.FindPrimaryKey() is null)
+                    continue;
+
+                var currentTableName = entityType.GetTableName();
+                if (currentTableName is null)
+                    continue;
+
+                // Decide table name
+                string tableName;
+                if (dbSets.TryGetValue(entityType.ClrType, out var dbSetName))
+                    tableName = dbSetName.ToSnakeCase();
+                else
+                    tableName = currentTableName.SanitizeTableName().ToSnakeCase();
+
+                // Apply table name (schema comes from HasDefaultSchema("public"))
+                modelBuilder.Entity(entityType.ClrType).ToTable(tableName);
+
+                // Rename columns ONLY for actual table columns
+                var storeObject = StoreObjectIdentifier.Table(tableName, entityType.GetSchema() ?? "public");
+
+                foreach (var prop in entityType.GetProperties())
                 {
-                    var currentColumnName = property.GetDefaultColumnName();
-                    if (currentColumnName is not null)
-                    {
-                        var columnName = currentColumnName.ToSnakeCase();
-                        modelBuilder.Entity(entity.Name).Property(property.Name).HasColumnName(columnName);
-                    }
+                    var colName = prop.GetColumnName(storeObject);
+                    if (colName is null)
+                        continue;
+
+                    modelBuilder.Entity(entityType.ClrType)
+                        .Property(prop.Name)
+                        .HasColumnName(colName.ToSnakeCase());
                 }
             }
         }
+
     }
+
 
     static class StringExtensions
     {
