@@ -1,0 +1,48 @@
+﻿@model MedicineLog.Models.UserSitesVm
+@{
+    ViewData["Title"] = "Platsåtkomst";
+    var selected = Model.SelectedSiteIds?.ToHashSet() ?? new HashSet<int>();
+}
+
+<div class="container mt-4">
+    <h1>Platsåtkomst</h1>
+    <div class="text-muted">@Model.Email</div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <form method="post" class="mt-3">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="UserId" />
+
+        <div class="card">
+            <div class="card-body">
+                <div class="fw-bold">Välj platser</div>
+                <div class="text-muted small">Om inga platser är valda tas Auditor-rollen bort automatiskt.</div>
+
+                <div class="mt-3">
+                    @foreach (var s in Model.Sites)
+                    {
+                        var isChecked = selected.Contains(s.Id);
+                        <div class="form-check">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   name="SelectedSiteIds"
+                                   value="@s.Id"
+                                   @(isChecked ? "checked" : "") />
+                            <label class="form-check-label">@s.Name</label>
+                        </div>
+                    }
+                </div>
+
+                <button class="btn btn-primary mt-3" type="submit">Spara</button>
+            </div>
+        </div>
+    </form>
+
+    <div class="mt-3">
+        <a class="btn btn-link" asp-action="Users">Tillbaka</a>
+    </div>
+</div>

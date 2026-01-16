@@ -1,0 +1,54 @@
+﻿@model MedicineLog.Models.UsersListVm
+@{
+    ViewData["Title"] = "Användare";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Användare</h1>
+        <a class="btn btn-primary" asp-action="CreateUser">Skapa användare</a>
+    </div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>E-post</th>
+                <th>Roller</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var u in Model.Users)
+            {
+                var locked = u.LockoutEnd.HasValue && u.LockoutEnd.Value > DateTimeOffset.UtcNow;
+                <tr>
+                    <td>@u.Email</td>
+                    <td>@(u.Roles.Count == 0 ? "—" : string.Join(", ", u.Roles))</td>
+                    <td>
+                        @if (locked)
+                        {
+                            <span class="badge bg-danger">Låst</span>
+                        }
+                        else
+                        {
+
+                            <span class="badge bg-success">Aktiv</span>
+                        }
+                    </td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary" asp-action="EditUser" asp-route-userId="@u.UserId">Redigera</a>
+                        <a class="btn btn-sm btn-outline-primary" asp-action="UserSites" asp-route-userId="@u.UserId">Platsåtkomst</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-link">Tillbaka</a>
+</div>

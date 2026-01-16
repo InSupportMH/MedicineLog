@@ -1,0 +1,88 @@
+﻿@model MedicineLog.Models.EditUserVm
+@{
+    ViewData["Title"] = "Redigera användare";
+    var locked = Model.LockoutEnd.HasValue && Model.LockoutEnd.Value > DateTimeOffset.UtcNow;
+}
+
+<div class="container mt-4">
+    <h1>Redigera användare</h1>
+    <div class="text-muted">@Model.Email</div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="fw-bold">Roller</div>
+
+            <form method="post" asp-action="EditUser" asp-route-userId="@Model.UserId" class="mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" asp-for="UserId" />
+
+                <div class="form-check">
+                    <input asp-for="IsAdmin" class="form-check-input" />
+                    <label asp-for="IsAdmin" class="form-check-label">Admin</label>
+                </div>
+
+                <div class="form-check">
+                    <input asp-for="IsAuditor" class="form-check-input" />
+                    <label asp-for="IsAuditor" class="form-check-label">Auditor</label>
+                </div>
+
+                <button class="btn btn-primary mt-3" type="submit">Spara roller</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="fw-bold">Kontostatus</div>
+            <div class="mt-2">
+                Status:
+                @if (locked)
+                {
+                    <span class="badge bg-danger">Låst</span>
+                }
+                else
+                {
+
+                    <span class="badge bg-success">Aktiv</span>
+                }
+            </div>
+
+            <form method="post" asp-action="ToggleLock" asp-route-userId="@Model.UserId" class="mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="returnTo" value="@Url.Action("EditUser", new { userId = Model.UserId })" />
+                <button class="btn btn-outline-secondary" type="submit">
+                    @(locked ? "Lås upp" : "Lås")
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="fw-bold">Återställ lösenord</div>
+
+            <form method="post" asp-action="ResetPassword" asp-route-userId="@Model.UserId" class="mt-3">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="UserId" value="@Model.UserId" />
+
+                <div class="mb-3">
+                    <label class="form-label">Nytt lösenord</label>
+                    <input name="NewPassword" type="password" class="form-control" />
+                </div>
+
+                <button class="btn btn-outline-danger" type="submit">Sätt nytt lösenord</button>
+
+                <div class="text-danger mt-2">@Html.ValidationSummary()</div>
+            </form>
+        </div>
+    </div>
+
+    <div class="mt-3 d-flex gap-2">
+        <a class="btn btn-link" asp-action="Users">Tillbaka</a>
+    </div>
+</div>

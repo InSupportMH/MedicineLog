@@ -1,0 +1,47 @@
+﻿@model MedicineLog.Models.AdminDashboardVm
+@{
+    ViewData["Title"] = "Admin";
+}
+
+<div class="container mt-4">
+    <h1>Admin</h1>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info">@toast</div>
+    }
+
+    <div class="row g-3 mt-2">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="fw-bold">Platser</div>
+                    <div class="display-6">@Model.SiteCount</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="fw-bold">Terminaler</div>
+                    <div class="display-6">@Model.TerminalCount</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="fw-bold">Aktiva terminalsessions</div>
+                    <div class="display-6">@Model.ActiveTerminalSessions</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex gap-2">
+        <a class="btn btn-primary" asp-action="Sites">Hantera platser</a>
+        <a class="btn btn-outline-primary" asp-action="Users">Användare</a>
+    </div>
+</div>

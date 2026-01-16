@@ -1,0 +1,53 @@
+﻿@model MedicineLog.Models.SitesListVm
+@{
+    ViewData["Title"] = "Platser";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Platser</h1>
+        <a class="btn btn-primary" asp-action="CreateSite">Skapa plats</a>
+    </div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Status</th>
+                <th>Terminaler</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var s in Model.Sites)
+            {
+                <tr>
+                    <td>@s.Name</td>
+                    <td>
+                        @if (s.IsActive)
+                        {
+                            <span class="badge bg-success">Aktiv</span>
+                        }
+                        else
+                        {
+
+                            <span class="badge bg-secondary">Inaktiv</span>
+                        }
+                    </td>
+                    <td>@s.TerminalCount</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="Terminals" asp-route-siteId="@s.Id">Terminaler</a>
+                        <a class="btn btn-sm btn-outline-secondary" asp-action="EditSite" asp-route-id="@s.Id">Redigera</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Index" class="btn btn-link">Tillbaka</a>
+</div>

@@ -1,0 +1,63 @@
+﻿@model MedicineLog.Models.TerminalsVm
+@{
+    ViewData["Title"] = "Terminaler";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div>
+            <h1>Terminaler</h1>
+            <div class="text-muted">Plats: @Model.SiteName</div>
+        </div>
+        <a class="btn btn-primary" asp-action="CreateTerminal" asp-route-siteId="@Model.SiteId">Skapa terminal</a>
+    </div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <table class="table table-striped mt-3">
+        <thead>
+            <tr>
+                <th>Namn</th>
+                <th>Status</th>
+                <th>Senast sedd</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var t in Model.Terminals)
+            {
+                <tr>
+                    <td>@t.Name</td>
+                    <td>
+                        @if (t.IsActive)
+                        {
+                            <span class="badge bg-success">Aktiv</span>
+                        }
+                        else
+                        {
+
+                            <span class="badge bg-secondary">Inaktiv</span>
+                        }
+                    </td>
+                    <td>@(t.LastSeenAt?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-primary" asp-action="PairTerminal" asp-route-terminalId="@t.Id">Parkoppla</a>
+
+                        <form asp-action="ToggleTerminal" asp-route-terminalId="@t.Id" method="post" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="returnSiteId" value="@Model.SiteId" />
+                            <button type="submit" class="btn btn-sm btn-outline-secondary">
+                                @(t.IsActive ? "Inaktivera" : "Aktivera")
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a asp-action="Sites" class="btn btn-link">Tillbaka till platser</a>
+</div>

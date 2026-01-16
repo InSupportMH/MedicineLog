@@ -1,0 +1,52 @@
+﻿@model MedicineLog.Models.PairTerminalVm
+@{
+    ViewData["Title"] = "Parkoppla terminal";
+}
+
+<div class="container mt-4">
+    <h1>Parkoppla terminal</h1>
+
+    <div class="mt-2">
+        <div><span class="text-muted">Plats:</span> @Model.SiteName</div>
+        <div><span class="text-muted">Terminal:</span> @Model.TerminalName</div>
+    </div>
+
+    @if (TempData["Toast"] is string toast)
+    {
+        <div class="alert alert-info mt-3">@toast</div>
+    }
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="fw-bold">Aktiv parkod</div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.ExistingCode))
+            {
+                <div class="display-6 mt-2">@Model.ExistingCode</div>
+                <div class="text-muted">Giltig till: @Model.ExistingExpiresAt?.ToString("yyyy-MM-dd HH:mm")</div>
+            }
+            else
+            {
+                <div class="text-muted mt-2">Ingen aktiv kod.</div>
+            }
+
+            <form method="post" asp-action="IssuePairingCode" asp-route-terminalId="@Model.TerminalId" class="mt-3">
+                @Html.AntiForgeryToken()
+                <div class="row g-2 align-items-end">
+                    <div class="col-auto">
+                        <label class="form-label">Giltighet (min)</label>
+                        <input name="minutesValid" type="number" min="1" max="60" value="10" class="form-control" style="width: 140px;" />
+                    </div>
+                    <div class="col-auto">
+                        <button class="btn btn-primary" type="submit">Skapa ny kod</button>
+                    </div>
+                </div>
+                <div class="text-muted small mt-2">
+                    Koden anges på terminalen vid <code>/pair</code>.
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <a asp-action="Terminals" asp-route-siteId="@Model.SiteId" class="btn btn-link mt-3">Tillbaka</a>
+</div>

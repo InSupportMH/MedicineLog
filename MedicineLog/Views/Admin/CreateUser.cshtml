@@ -1,0 +1,45 @@
+﻿@model MedicineLog.Models.CreateUserVm
+@{
+    ViewData["Title"] = "Skapa användare";
+}
+
+<div class="container mt-4">
+    <h1>Skapa användare</h1>
+
+    <form method="post" class="mt-3">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">E-post</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Lösenord</label>
+            <input asp-for="Password" type="password" class="form-control" />
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+
+        <div class="form-check">
+            <input asp-for="IsAdmin" class="form-check-input" />
+            <label asp-for="IsAdmin" class="form-check-label">Admin</label>
+        </div>
+
+        <div class="form-check">
+            <input asp-for="IsAuditor" class="form-check-input" />
+            <label asp-for="IsAuditor" class="form-check-label">Auditor</label>
+        </div>
+
+        <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-primary" type="submit">Skapa</button>
+            <a class="btn btn-outline-secondary" asp-action="Users">Avbryt</a>
+        </div>
+
+        <div class="text-danger mt-2">@Html.ValidationSummary()</div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

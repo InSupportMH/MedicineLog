@@ -1,0 +1,32 @@
+﻿@model MedicineLog.Models.CreateTerminalVm
+@{
+    ViewData["Title"] = "Skapa terminal";
+}
+
+<div class="container mt-4">
+    <h1>Skapa terminal</h1>
+    <div class="text-muted">Plats: @Model.SiteName</div>
+
+    <form method="post" class="mt-3">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="SiteId" />
+
+        <div class="mb-3">
+            <label class="form-label">Namn</label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+
+        <div class="form-check mb-3">
+            <input asp-for="IsActive" class="form-check-input" />
+            <label asp-for="IsActive" class="form-check-label">Aktiv</label>
+        </div>
+
+        <button class="btn btn-primary" type="submit">Spara</button>
+        <a class="btn btn-outline-secondary" asp-action="Terminals" asp-route-siteId="@Model.SiteId">Avbryt</a>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
