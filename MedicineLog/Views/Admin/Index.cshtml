@@ -3,9 +3,12 @@
     ViewData["Title"] = "Admin";
 }
 
-<partial name="_LogoutButton"/>
 <div class="container mt-4">
     <h1>Admin</h1>
+
+    <div class="d-flex justify-content-end">
+        <partial name="_LogoutButton" />
+    </div>
 
     @if (TempData["Toast"] is string toast)
     {
@@ -42,7 +45,10 @@
     </div>
 
     <div class="mt-4 d-flex gap-2">
-        <a class="btn btn-primary" asp-action="Sites">Hantera platser</a>
+        <a class="btn btn-outline-primary" asp-action="Sites">Hantera platser</a>
         <a class="btn btn-outline-primary" asp-action="Users">Användare</a>
     </div>
+
+
 </div>
+

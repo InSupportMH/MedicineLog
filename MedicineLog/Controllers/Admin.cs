@@ -24,8 +24,8 @@ namespace MedicineLog.Web.Controllers
             _roleManager = roleManager;
         }
 
-        // GET /admin
-        [HttpGet("")]
+        // GET /admin/index
+        [HttpGet("index")]
         public async Task<IActionResult> Index()
         {
             var vm = new AdminDashboardVm

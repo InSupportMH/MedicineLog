@@ -31,8 +31,8 @@ namespace MedicineLog.Data
         {
             if (!context.Users.Any())
             {
-                var user = new AppUser("insupport");
-                var createUserResult = await userManager.CreateAsync(user, "Pass1!");
+                var user = new AppUser("admin@insupport.se");
+                var createUserResult = await userManager.CreateAsync(user, "Password1!");
                 if (!createUserResult.Succeeded)
                     throw new Exception("Failed to seed database with admin user.");
 

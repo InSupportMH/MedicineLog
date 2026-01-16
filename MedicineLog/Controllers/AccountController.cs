@@ -60,17 +60,17 @@ namespace MedicineLog.Controllers
 
             // Role-based landing page
             var user = await _userManager.FindByNameAsync(email);
-            if (user is null)
+            if (user == null)
             {
-                // Should be rare if sign-in succeeded, but keep it safe.
-                return RedirectToAction("Index", "Home", new { area = "" });
+                ModelState.AddModelError(string.Empty, "Något gick fel.");
+                return View(model);
             }
 
             if (await _userManager.IsInRoleAsync(user, UserRoles.Admin.ToString()))
-                return RedirectToAction("Index", "Admin", new { area = "" }); // /Admin/Index
+                return RedirectToAction("Index", "Admin", new { area = "" });
 
             if (await _userManager.IsInRoleAsync(user, UserRoles.Auditor.ToString()))
-                return RedirectToAction("Index", "Audit", new { area = "" }); // /Audit/Index
+                return RedirectToAction("Index", "Audit", new { area = "" }); 
 
             // Fallback if no known role
             return RedirectToAction("Index", "Home", new { area = "" });

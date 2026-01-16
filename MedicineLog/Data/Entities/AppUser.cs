@@ -9,9 +9,9 @@ namespace MedicineLog.Data.Entities
         {
         }
 
-        public AppUser(string name)
+        public AppUser(string email)
         {
-            UserName = name;
+            Email = UserName = email;
         }
         // Auditor can be granted access to multiple sites
         public ICollection<AuditorSiteAccess> AuditorSiteAccesses { get; set; } = new List<AuditorSiteAccess>();
