@@ -13,8 +13,9 @@ builder.Services.AddDefaultIdentity<AppUser>()
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DbConnectionString")));
+    options.UseNpgsql(connectionString));
 
 
 
@@ -23,6 +24,17 @@ builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
 var app = builder.Build();
 
 app.UseMiddleware<TerminalSessionMiddleware>();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    var userManager = services.GetRequiredService<UserManager<AppUser>>();
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    
+    context.Database.Migrate();
+    await SeedData.Seed(userManager, roleManager, context);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -57,7 +57,7 @@ namespace MedicineLog.Data
                 else
                     tableName = currentTableName.SanitizeTableName().ToSnakeCase();
 
-                // Apply table name (schema comes from HasDefaultSchema("public"))
+                // Apply table name
                 modelBuilder.Entity(entityType.ClrType).ToTable(tableName);
 
                 // Rename columns ONLY for actual table columns
