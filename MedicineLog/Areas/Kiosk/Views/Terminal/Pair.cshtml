@@ -1,0 +1,48 @@
+﻿@model MedicineLog.Areas.Kiosk.Models.TerminalPairViewModel
+
+@{
+    ViewData["Title"] = "Para terminal";
+    // Use the Area layout adapted for iPads:
+    Layout = "_TerminalLayout"; // or "~/Areas/Terminal/Views/Shared/_TerminalLayout.cshtml"
+}
+
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-10 col-lg-8">
+
+            <h1 class="display-6 mb-3">@ViewData["Title"]</h1>
+            <p class="lead mb-4">
+                Ange parningskoden som administratören har skapat.
+            </p>
+
+            <form asp-action="Pair" asp-controller="Terminal" asp-area="kiosk" method="post" class="card shadow-sm">
+                @Html.AntiForgeryToken()
+
+                <div class="card-body p-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Code" class="form-label fw-semibold fs-4"></label>
+                        <input asp-for="Code"
+                               class="form-control form-control-lg fs-3"
+                               autocomplete="one-time-code"
+                               inputmode="text"
+                               autofocus />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg fs-3 py-3">
+                            Para
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

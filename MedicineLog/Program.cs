@@ -53,10 +53,17 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Terminal}/{action=Register}")
+    .WithStaticAssets();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}")
     .WithStaticAssets();
+
 
 
 app.Run();

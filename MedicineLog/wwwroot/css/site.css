@@ -29,3 +29,30 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+.page-wrap {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.reg-card {
+    width: min(760px, 100%);
+    border-radius: 18px;
+    box-shadow: 0 10px 30px rgba(16, 24, 40, .10);
+}
+
+.logo-box {
+    width: 84px;
+    height: 84px;
+    border-radius: 12px;
+    background: #e9ecef;
+    display: grid;
+    place-items: center;
+    font-weight: 700;
+    color: #6c757d;
+    user-select: none;
+}
+

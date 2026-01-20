@@ -1,6 +1,28 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+body {
+    background: #f5f7fb;
+}
+
+/* Bigger touch targets for iPad */
+.form-control, .btn {
+    min-height: 54px;
+    font-size: 1.05rem;
+}
+
+.btn {
+    border-radius: 10px;
+}
+
+.btn-primary {
+    font-weight: 600;
+}
+
+.btn-outline-secondary {
+    font-weight: 600;
+}
+
 a {
   color: #0077cc;
 }

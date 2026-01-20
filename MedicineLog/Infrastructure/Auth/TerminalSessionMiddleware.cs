@@ -6,6 +6,7 @@ namespace MedicineLog.Infrastructure.Auth
 {
     public sealed class TerminalSessionMiddleware
     {
+        public const string TokenName = "ml_terminal";
         private readonly RequestDelegate _next;
 
         public TerminalSessionMiddleware(RequestDelegate next) => _next = next;
@@ -15,11 +16,11 @@ namespace MedicineLog.Infrastructure.Auth
             ITerminalContextAccessor terminalCtx)
         {
             // cookie contains the raw refresh token (or some session key)
-            var token = http.Request.Cookies["ml_terminal"];
+            var token = http.Request.Cookies[TokenName];
 
             if (!string.IsNullOrWhiteSpace(token))
             {
-                var tokenHash = HashToken(token); // your hashing method
+                var tokenHash = TokenHelper.Sha256Base64(token);
 
                 var session = await db.TerminalSessions
                     .Include(s => s.Terminal)
@@ -35,12 +36,6 @@ namespace MedicineLog.Infrastructure.Auth
             }
 
             await _next(http);
-        }
-
-        private static string HashToken(string token)
-        {
-            // e.g. SHA256 + base64; keep it consistent with the stored hash
-            throw new NotImplementedException();
         }
     }
 }
