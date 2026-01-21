@@ -1,4 +1,4 @@
-﻿@model MedicineLog.Models.MedicineRegViewModel
+﻿@model MedicineLog.Models.MedicineRegVm
 @{
     ViewData["Title"] = "Registrera";
 }
@@ -16,18 +16,18 @@
             </div>
         </div>
 
-        <form asp-action="Register" asp-controller="Medication" method="post" class="needs-validation" novalidate>
+        <form asp-action="Register" method="post" class="needs-validation" novalidate>
             <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
             <div class="mb-3">
                 <label asp-for="FirstName" class="form-label fw-semibold"></label>
-                <input asp-for="FirstName" class="form-control" placeholder="Ange förnamn" autocomplete="given-name" />
+                <input asp-for="FirstName" class="form-control" autocomplete="off" />
                 <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
 
             <div class="mb-4">
                 <label asp-for="LastName" class="form-label fw-semibold"></label>
-                <input asp-for="LastName" class="form-control" placeholder="Ange efternamn" autocomplete="family-name" />
+                <input asp-for="LastName" class="form-control" autocomplete="off" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
             </div>
 
@@ -42,7 +42,6 @@
                             </label>
                             <input asp-for="Medicines[i].MedicineName"
                                     class="form-control"
-                                    placeholder="Ange läkemedlets namn"
                                     autocomplete="off" />
                             <span asp-validation-for="Medicines[i].MedicineName" class="text-danger"></span>
                         </div>
@@ -51,7 +50,6 @@
                             <label asp-for="Medicines[i].Quantity" class="form-label fw-semibold"></label>
                             <input asp-for="Medicines[i].Quantity"
                                     class="form-control"
-                                    placeholder="Ange antal"
                                     inputmode="numeric" />
                             <span asp-validation-for="Medicines[i].Quantity" class="text-danger"></span>
                         </div>
@@ -67,7 +65,7 @@
                     </div>
                 }
                 <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddMedicine">
-                    + Lägg till läkemedel
+                    + Lägg till fler läkemedel
                 </button>
             </div>
 
@@ -77,7 +75,28 @@
     </div>
 </div>
 
+@if (TempData["SavedOk"] as bool? == true)
+{
+    <div id="saved-ok-flag" data-saved="1"></div>
+}
+
+<div class="modal fade" id="savedOkModal" tabindex="-1" aria-labelledby="savedOkModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content px-4 py-4">
+            <div class="modal-body text-center">
+                <h2>Registreringen lyckeades!</h2>
+                <!-- Big green check icon -->
+                <svg class="mt-2 modal-check" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                    <path d="M9.0 16.2 4.8 12l-1.4 1.4L9.0 19 21 7l-1.4-1.4z"></path>
+                </svg>
+            </div>
+          
+        </div>
+    </div>
+</div>
+
 @section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
 
     <script>
@@ -154,6 +173,15 @@
                 reparseValidation();
             }
 
+            function showConfirmation() {
+                const el = document.getElementById("savedOkModal");
+                const modal = new bootstrap.Modal(el, { backdrop: "static", keyboard: false });
+                modal.show();
+
+                // Auto-close after 4 seconds
+                 setTimeout(() => modal.hide(), 4000);
+            }
+
             // Add
             btnAdd?.addEventListener('click', addMedicineRow);
 
@@ -193,7 +221,20 @@
 
                 reparseValidation();
             });
+
+            const savedFlag = document.getElementById("saved-ok-flag");
+            if (savedFlag)
+                showConfirmation();
         })();
     </script>
 
 }
+
+<style>
+    .modal-check {
+        width: 96px;
+        height: 96px;
+        fill: #16a34a;
+        display: inline-block;
+    }
+</style>

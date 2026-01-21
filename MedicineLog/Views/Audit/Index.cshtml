@@ -1,0 +1,38 @@
+﻿@model MedicineLog.ViewModels.AuditPdfVm
+
+@{
+    ViewData["Title"] = "Granskning";
+}
+
+<div class="container py-4">
+    <h1 class="mb-3">Granskning</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <form method="get" asp-action="DownloadPdf" class="row g-3">
+                <div class="col-12 col-md-6">
+                    <label asp-for="SiteId" class="form-label">Välj plats</label>
+                    <select asp-for="SiteId" asp-items="ViewBag.Sites" class="form-select"></select>
+                    <span asp-validation-for="SiteId" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <button class="btn btn-primary" type="submit">
+                        Ladda ner PDF
+                    </button>
+                </div>
+            </form>
+
+            @if (ViewBag.Sites.Count == 0)
+            {
+                <Adiv class="alert alert-warning mt-3 mb-0">
+                    Du har inte behörighet till några platser.
+                </Adiv>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

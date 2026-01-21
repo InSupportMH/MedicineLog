@@ -66,10 +66,10 @@ namespace MedicineLog.Controllers
                 return View(model);
             }
 
-            if (await _userManager.IsInRoleAsync(user, UserRoles.Admin.ToString()))
+            if (await _userManager.IsInRoleAsync(user, UserRoles.Admin))
                 return RedirectToAction("Index", "Admin", new { area = "" });
 
-            if (await _userManager.IsInRoleAsync(user, UserRoles.Auditor.ToString()))
+            if (await _userManager.IsInRoleAsync(user, UserRoles.Auditor))
                 return RedirectToAction("Index", "Audit", new { area = "" }); 
 
             // Fallback if no known role

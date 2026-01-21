@@ -467,9 +467,9 @@ namespace MedicineLog.Web.Controllers
 
             // Roles
             if (vm.IsAdmin)
-                await _userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
+                await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             if (vm.IsAuditor)
-                await _userManager.AddToRoleAsync(user, UserRoles.Auditor.ToString());
+                await _userManager.AddToRoleAsync(user, UserRoles.Auditor);
 
             TempData["Toast"] = "Användare skapad.";
             return RedirectToAction(nameof(Users));
@@ -490,8 +490,8 @@ namespace MedicineLog.Web.Controllers
             {
                 UserId = user.Id,
                 Email = user.Email ?? user.UserName ?? "",
-                IsAdmin = roles.Contains(UserRoles.Admin.ToString()),
-                IsAuditor = roles.Contains(UserRoles.Auditor.ToString()),
+                IsAdmin = roles.Contains(UserRoles.Admin),
+                IsAuditor = roles.Contains(UserRoles.Auditor),
                 LockoutEnd = user.LockoutEnd
             });
         }
@@ -515,8 +515,8 @@ namespace MedicineLog.Web.Controllers
             // Update roles
             var roles = await _userManager.GetRolesAsync(user);
 
-            await SetRoleAsync(user, UserRoles.Admin.ToString(), vm.IsAdmin, roles);
-            await SetRoleAsync(user, UserRoles.Auditor.ToString(), vm.IsAuditor, roles);
+            await SetRoleAsync(user, UserRoles.Admin, vm.IsAdmin, roles);
+            await SetRoleAsync(user, UserRoles.Auditor, vm.IsAuditor, roles);
 
             TempData["Toast"] = "Användare uppdaterad.";
             return RedirectToAction(nameof(EditUser), new { userId });
@@ -579,8 +579,8 @@ namespace MedicineLog.Web.Controllers
                 {
                     UserId = user.Id,
                     Email = user.Email ?? user.UserName ?? "",
-                    IsAdmin = roles.Contains(UserRoles.Admin.ToString()),
-                    IsAuditor = roles.Contains(UserRoles.Auditor.ToString()),
+                    IsAdmin = roles.Contains(UserRoles.Admin),
+                    IsAuditor = roles.Contains(UserRoles.Auditor),
                     LockoutEnd = user.LockoutEnd,
                     PasswordReset = vm
                 });
@@ -600,8 +600,8 @@ namespace MedicineLog.Web.Controllers
                 {
                     UserId = user.Id,
                     Email = user.Email ?? user.UserName ?? "",
-                    IsAdmin = roles.Contains(UserRoles.Admin.ToString()),
-                    IsAuditor = roles.Contains(UserRoles.Auditor.ToString()),
+                    IsAdmin = roles.Contains(UserRoles.Admin),
+                    IsAuditor = roles.Contains(UserRoles.Auditor),
                     LockoutEnd = user.LockoutEnd,
                     PasswordReset = vm
                 });
@@ -682,10 +682,10 @@ namespace MedicineLog.Web.Controllers
             // Optional: ensure they are an Auditor if they have any sites
             var hasAnySitesNow = selected.Count > 0;
             var roles = await _userManager.GetRolesAsync(user);
-            if (hasAnySitesNow && !roles.Contains(UserRoles.Auditor.ToString()))
-                await _userManager.AddToRoleAsync(user, UserRoles.Auditor.ToString());
-            if (!hasAnySitesNow && roles.Contains(UserRoles.Auditor.ToString()))
-                await _userManager.RemoveFromRoleAsync(user, UserRoles.Auditor.ToString());
+            if (hasAnySitesNow && !roles.Contains(UserRoles.Auditor))
+                await _userManager.AddToRoleAsync(user, UserRoles.Auditor);
+            if (!hasAnySitesNow && roles.Contains(UserRoles.Auditor))
+                await _userManager.RemoveFromRoleAsync(user, UserRoles.Auditor);
 
             TempData["Toast"] = "Åtkomst uppdaterad.";
             return RedirectToAction(nameof(UserSites), new { userId });
@@ -694,11 +694,11 @@ namespace MedicineLog.Web.Controllers
         // Create roles if missing
         private async Task EnsureCoreRolesExistAsync()
         {
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin.ToString()));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Auditor.ToString()))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Auditor.ToString()));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Auditor))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Auditor));
         }
     }
 }

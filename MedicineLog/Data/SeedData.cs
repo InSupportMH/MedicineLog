@@ -1,9 +1,24 @@
 ﻿using MedicineLog.Data.Entities;
 using Microsoft.AspNetCore.Identity;
+using System.Reflection;
 
 namespace MedicineLog.Data
 {
-    public enum UserRoles { Admin, Auditor };
+    public static class UserRoles
+    {
+        public const string Admin = "Admin";
+        public const string Auditor = "Auditor";
+
+        private static readonly Lazy<IReadOnlyList<string>> _all = new(() =>
+             typeof(UserRoles)
+                 .GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                 .Where(f => f.IsLiteral && !f.IsInitOnly && f.FieldType == typeof(string))
+                 .Select(f => (string)f.GetRawConstantValue()!)
+                 .ToArray()
+            );
+
+        public static IReadOnlyList<string> All => _all.Value;
+    }
 
     class SeedData
     {
@@ -16,7 +31,7 @@ namespace MedicineLog.Data
 
         static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            foreach (var role in Enum.GetValues(typeof(UserRoles)))
+            foreach (var role in UserRoles.All)
             {
                 var roleName = role.ToString();
                 if (roleName != null && !await roleManager.RoleExistsAsync(roleName))
@@ -36,7 +51,7 @@ namespace MedicineLog.Data
                 if (!createUserResult.Succeeded)
                     throw new Exception("Failed to seed database with admin user.");
 
-                await userManager.AddToRoleAsync(user, UserRoles.Admin.ToString());
+                await userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
         }
     }

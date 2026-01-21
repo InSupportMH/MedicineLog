@@ -16,7 +16,7 @@
         public int? Quantity { get; set; }
     }
 
-    public class MedicineRegViewModel
+    public class MedicineRegVm
     {
         public int SiteId { get; set; }
         public int TerminalId { get; set; }

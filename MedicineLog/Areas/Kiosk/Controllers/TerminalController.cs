@@ -136,29 +136,20 @@ namespace MedicineLog.Areas.Terminals.Controllers
         [HttpGet]
         public IActionResult Register()
         {
-            return View(new MedicineRegViewModel());
+            return View(new MedicineRegVm());
         }
 
         [RequirePairing]
         [HttpPost]
-        public async Task<IActionResult> Register(MedicineRegViewModel model, CancellationToken ct)
+        public async Task<IActionResult> Register(MedicineRegVm model, CancellationToken ct)
         {
-            model.Medicines ??= new List<MedicineItemViewModel>();
-
-            // Iignore fully empty rows
-            var filtered = model.Medicines
-                .Where(m => !string.IsNullOrWhiteSpace(m.MedicineName) || m.Quantity.HasValue)
-                .ToList();
-
-            if (filtered.Count == 0)
+            if (model.Medicines.Count == 0)
             {
                 ModelState.AddModelError(nameof(model.Medicines), "Lägg till minst ett läkemedel.");
             }
 
             if (!ModelState.IsValid)
             {
-                // Keep the filtered list so the user doesn't see blank rows on error
-                model.Medicines = filtered.Count > 0 ? filtered : new List<MedicineItemViewModel> { new() };
                 return View(model);
             }
 
@@ -171,16 +162,17 @@ namespace MedicineLog.Areas.Terminals.Controllers
                 FirstName = model.FirstName.Trim(),
                 LastName = model.LastName.Trim(),
                 CreatedAt = DateTimeOffset.UtcNow,
-                Items = filtered.Select(m => new MedicineLogEntryItem
+                Items = model.Medicines.Select(m => new MedicineLogEntryItem
                 {
                     MedicineName = m.MedicineName.Trim(),
                     Quantity = m.Quantity!.Value
                 }).ToList()
             };
 
-            _db.MedicineLogEntries.Add(entry);
+            await _db.MedicineLogEntries.AddAsync(entry);
             await _db.SaveChangesAsync(ct);
 
+            TempData["SavedOk"] = true;
             return RedirectToAction(nameof(Register));
         }
 
@@ -188,7 +180,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorVm { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

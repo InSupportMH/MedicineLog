@@ -2,8 +2,12 @@ using MedicineLog.Application.Terminals;
 using MedicineLog.Data;
 using MedicineLog.Data.Entities;
 using MedicineLog.Infrastructure.Auth;
+using MedicineLog.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,9 +27,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
-
-
 builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
+builder.Services.AddScoped<IAuditPdfuService, AuditPdfService>();
 
 var app = builder.Build();
 
@@ -49,8 +52,8 @@ if (!app.Environment.IsDevelopment())
 }
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.MapStaticAssets();
 
 
