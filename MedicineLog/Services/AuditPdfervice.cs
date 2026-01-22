@@ -18,9 +18,9 @@ public sealed class AuditPdfService : IAuditPdfuService
 
                 page.Header().Column(col =>
                 {
-                    col.Item().Text("Medicinförteckning").FontSize(18).SemiBold();
+                    col.Item().Text("Registrerade läkemedel").FontSize(18).SemiBold();
                     col.Item().Text($"Plats: {data.SiteName}").FontSize(12);
-                    col.Item().Text($"Skapad: {data.GeneratedAt:yyyy-MM-dd HH:mm}");
+                    col.Item().Text($"Rapport skapad: {data.GeneratedAt:yyyy-MM-dd HH:mm}");
                     if (data.FromDate is not null || data.ToDate is not null)
                     {
                         var from = data.FromDate?.ToString("yyyy-MM-dd") ?? "-";
@@ -45,10 +45,8 @@ public sealed class AuditPdfService : IAuditPdfuService
                             e.Item().Row(r =>
                             {
                                 r.RelativeItem().Text($"{entry.CreatedAt:yyyy-MM-dd HH:mm}").SemiBold();
-                                r.RelativeItem().AlignRight().Text($"Terminal: {entry.TerminalName}");
+                                r.RelativeItem().AlignRight().Text($"Personal: {entry.StaffName}");
                             });
-
-                            e.Item().Text($"Personal: {entry.StaffName}");
 
                             e.Item().PaddingTop(6).Table(t =>
                             {

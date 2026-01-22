@@ -4,6 +4,8 @@ services:
     build:
       context: .
       dockerfile: MedicineLog/Dockerfile
+    environment:
+      - TZ=${TIMEZONE}
 
   postgres:
     image: pgautoupgrade/pgautoupgrade:17-bookworm

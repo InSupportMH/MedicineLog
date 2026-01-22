@@ -12,7 +12,7 @@
 
         [Display(Name = "Antal")]
         [Required(ErrorMessage = "Antal är obligatoriskt.")]
-        [Range(1, 100000, ErrorMessage = "Antal måste vara minst 1.")]
+        [Range(1, 1000, ErrorMessage = "Gitligt antal: 1 - 1000.")]
         public int? Quantity { get; set; }
     }
 

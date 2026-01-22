@@ -34,35 +34,27 @@
             <div id="medicineList" class="vstack gap-3 mb-4">
                 @for (var i = 0; i < Model.Medicines.Count; i++)
                 {
-                    <div class="d-flex gap-2 align-items-end flex-wrap flex-md-nowrap">
+                    <div class="d-flex gap-2 align-items-end flex-wrap flex-md-nowrap medicine-item">
+                        
                         <div class="flex-grow-1">
-                            <label asp-for="Medicines[i].MedicineName"
-                                    class="form-label fw-semibold medicine-label">
+                            <label asp-for="Medicines[i].MedicineName" class="form-label fw-semibold medicine-label">
                                 Läkemedel @(i + 1)
                             </label>
-                            <input asp-for="Medicines[i].MedicineName"
-                                    class="form-control"
-                                    autocomplete="off" />
-                            <span asp-validation-for="Medicines[i].MedicineName" class="text-danger"></span>
+                            <input asp-for="Medicines[i].MedicineName" class="form-control" autocomplete="off" />
                         </div>
 
-                        <div class="flex-shrink-0" style="width: 140px;">
+                        <div class="flex-shrink-0" style="width: 8rem;">
                             <label asp-for="Medicines[i].Quantity" class="form-label fw-semibold"></label>
-                            <input asp-for="Medicines[i].Quantity"
-                                    class="form-control"
-                                    inputmode="numeric" />
-                            <span asp-validation-for="Medicines[i].Quantity" class="text-danger"></span>
+                            <input asp-for="Medicines[i].Quantity" class="form-control" inputmode="numeric" value="1"/>
                         </div>
 
-                        <div class="flex-shrink-0 d-flex justify-content-end" style="width: 44px;">
-                            <button type="button"
-                                    class="btn btn-outline-danger btn-sm btnRemoveMedicine"
-                                    aria-label="Ta bort läkemedel"
-                                    title="Ta bort">
-                                <i class="bi bi-trash"></i>
-                            </button>
+                        <div class="flex-shrink-0 d-flex justify-content-end" style="width: 2rem;">
+                            <button type="button" class="btn btn-outline-danger btn-sm btnRemoveMedicine" aria-label="Ta bort läkemedel" title="Ta bort"> <i class="bi bi-trash"></i></button>
                         </div>
+
                     </div>
+                    <span asp-validation-for="Medicines[i].MedicineName" class="text-danger"></span>
+                    <span asp-validation-for="Medicines[i].Quantity" class="text-danger"></span>
                 }
                 <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddMedicine">
                     + Lägg till fler läkemedel
@@ -161,6 +153,7 @@
             }
 
             function addMedicineRow() {
+                console.log("addMedicineRow");
                 const index = list.querySelectorAll('.medicine-item').length;
 
                 const base = prototype ?? list.querySelector('.medicine-item')?.cloneNode(true);
@@ -168,10 +161,13 @@
 
                 const item = base.cloneNode(true);
                 normalizeItem(item, index, true);
-                list.appendChild(item);
+
+                // Insert BEFORE the add button so it stays last
+                list.insertBefore(item, btnAdd);
 
                 reparseValidation();
             }
+
 
             function showConfirmation() {
                 const el = document.getElementById("savedOkModal");
@@ -209,7 +205,7 @@
                 const form = this.closest('form');
                 form?.reset();
 
-                list.innerHTML = '';
+                list.querySelectorAll('.medicine-item').forEach(x => x.remove());
                 addMedicineRow();
 
                 // Clear validation messages + styles

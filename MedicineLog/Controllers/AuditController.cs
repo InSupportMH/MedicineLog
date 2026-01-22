@@ -72,7 +72,7 @@ public sealed class AuditController : Controller
             .Include(e => e.Items)
             .OrderByDescending(e => e.CreatedAt)
             .Select(e => new AuditPdfEntry(
-                e.CreatedAt,
+                e.CreatedAt.ToLocalTime(),
                 e.Terminal.Name,
                 (e.FirstName + " " + e.LastName).Trim(),
                 e.Items
@@ -84,7 +84,7 @@ public sealed class AuditController : Controller
 
         var data = new AuditPdfData(
             SiteName: site.Name,
-            GeneratedAt: DateTimeOffset.UtcNow,
+            GeneratedAt: DateTime.Now,
             FromDate: null,
             ToDate: null,
             Entries: entries
@@ -93,7 +93,7 @@ public sealed class AuditController : Controller
         var pdfBytes = _pdf.BuildSiteLogPdf(data);
 
         var safeSiteName = string.Concat(site.Name.Where(ch => !Path.GetInvalidFileNameChars().Contains(ch)));
-        var fileName = $"medicinlogg_{safeSiteName}_{DateTime.UtcNow:yyyyMMdd_HHmm}.pdf";
+        var fileName = $"Läkemedelslogg_{safeSiteName}_{DateTime.Now:yyyyMMdd_HHmm}.pdf";
 
         return File(pdfBytes, "application/pdf", fileName);
     }
