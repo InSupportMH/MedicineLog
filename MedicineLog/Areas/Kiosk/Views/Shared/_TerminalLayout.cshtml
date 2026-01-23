@@ -23,26 +23,29 @@
     @RenderSection("Scripts", required: false)
 </body>
 
+</html>
+
 <style>
-    body {
-        font-size: 32px;
+    body, input {
+        font-size: 32px !important;
     }
 
-    /* Bigger touch targets for iPad */
-    .form-control, .btn {
-        min-height: 54px;
+    .btn-lg {
+        font-size: 45px !important;
+        height: 10rem !important;
+        font-weight: 600 !important;
     }
 
     .btn {
-        border-radius: 10px;
+        border-radius: 1rem !important;
+        height: 7rem !important;
+        font-size: 40px !important;
+        --bs-btn-border-width: 3px !important;
     }
 
-    .btn-primary {
-        font-weight: 600;
-    }
-
-    .btn-outline-secondary {
-        font-weight: 600;
+    input {
+        height: 5rem !important;
+        border: 0.05rem solid #000 !important;
     }
 
     .btn-primary {
@@ -64,4 +67,3 @@
     }
 
 </style>
-</html>
