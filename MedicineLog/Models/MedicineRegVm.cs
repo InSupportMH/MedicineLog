@@ -3,39 +3,39 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    public class MedicineItemViewModel
+    public class MedicineItemVm
     {
         [Display(Name = "Läkemedel")]
-        [Required(ErrorMessage = "Läkemedlets namn är obligatoriskt.")]
+        [Required(ErrorMessage = "Läkemedlets namn saknas.")]
         [StringLength(200)]
         public string MedicineName { get; set; } = "";
 
         [Display(Name = "Antal")]
-        [Required(ErrorMessage = "Antal är obligatoriskt.")]
+        [Required(ErrorMessage = "Antal saknas.")]
         [Range(1, 1000, ErrorMessage = "Gitligt antal: 1 - 1000.")]
         public int? Quantity { get; set; }
+
+        [Required(ErrorMessage = "Bild saknas.")]
+        public IFormFile Photo { get; set; } = default!;
     }
 
     public class MedicineRegVm
     {
-        public int SiteId { get; set; }
-        public int TerminalId { get; set; }
-
         [Display(Name = "Förnamn")]
-        [Required(ErrorMessage = "Förnamn är obligatoriskt.")]
+        [Required(ErrorMessage = "Förnamn saknas.")]
         [StringLength(100)]
         public string FirstName { get; set; } = "";
 
         [Display(Name = "Efternamn")]
-        [Required(ErrorMessage = "Efternamn är obligatoriskt.")]
+        [Required(ErrorMessage = "Efternamn saknas.")]
         [StringLength(100)]
         public string LastName { get; set; } = "";
 
         [Display(Name = "Läkemedel")]
         [MinLength(1, ErrorMessage = "Lägg till minst ett läkemedel.")]
-        public List<MedicineItemViewModel> Medicines { get; set; } = new()
+        public List<MedicineItemVm> Medicines { get; set; } = new()
         {
-            new MedicineItemViewModel()
+            new MedicineItemVm()
         };
     }
 }
