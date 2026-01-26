@@ -3,13 +3,22 @@ using MedicineLog.Data;
 using MedicineLog.Data.Entities;
 using MedicineLog.Infrastructure.Auth;
 using MedicineLog.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using QuestPDF.Infrastructure;
+using Serilog;
+using System.Security.Cryptography.X509Certificates;
 
 QuestPDF.Settings.License = LicenseType.Community;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((ctx, services, lc) => lc
+    .ReadFrom.Configuration(ctx.Configuration)
+    .ReadFrom.Services(services)
+    .Enrich.FromLogContext()
+);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -31,9 +40,23 @@ builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
 builder.Services.AddScoped<IAuditPdfuService, AuditPdfService>();
 builder.Services.AddSingleton<IPhotoStoreService, FileSystemPhotoStoreService>();
 builder.Services.AddHostedService<LogCleanupService>();
+builder.Services.AddHttpsRedirection(options =>
+{
+    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
+});
+
+
+var dataProtection = builder.Services.AddDataProtection()
+        .PersistKeysToFileSystem(new DirectoryInfo("/app/.aspnet/data-protection-keys"));
+
+if (builder.Environment.IsProduction())
+{
+    dataProtection.ProtectKeysWithCertificate(CreateCert());
+}
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
 app.UseMiddleware<TerminalSessionMiddleware>();
 
 using (var scope = app.Services.CreateScope())
@@ -72,3 +95,10 @@ app.MapControllerRoute(
 
 
 app.Run();
+
+static X509Certificate2 CreateCert()
+{
+    var certPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggconnect.se.crt"));
+    var keyPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggconnect.se.key"));
+    return X509Certificate2.CreateFromPem(certPem, keyPem);
+}
