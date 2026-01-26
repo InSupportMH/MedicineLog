@@ -29,6 +29,8 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ITerminalContextAccessor, TerminalContextAccessor>();
 builder.Services.AddScoped<IAuditPdfuService, AuditPdfService>();
+builder.Services.AddSingleton<IPhotoStoreService, FileSystemPhotoStoreService>();
+builder.Services.AddHostedService<LogCleanupService>();
 
 var app = builder.Build();
 

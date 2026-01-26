@@ -13,8 +13,12 @@ namespace MedicineLog.Data.Entities
 
         [Required, StringLength(200)]
         public string MedicineName { get; set; } = "";
-        [Range(1, 100000)]
+        [Range(1, 10000)]
         public int Quantity { get; set; }
+
+        public string PhotoPath { get; set; } = "";
+        public string PhotoContentType { get; set; } = "";
+        public long PhotoLength { get; set; }
     }
 
 }

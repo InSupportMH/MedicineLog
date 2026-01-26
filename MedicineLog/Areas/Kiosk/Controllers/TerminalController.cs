@@ -4,6 +4,7 @@ using MedicineLog.Data;
 using MedicineLog.Data.Entities;
 using MedicineLog.Infrastructure.Auth;
 using MedicineLog.Models;
+using MedicineLog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,11 +22,15 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
         readonly AppDbContext _db;
         readonly ITerminalContextAccessor _terminalCtxAccessor;
+        readonly IPhotoStoreService _photoStoreService;
+        readonly ILogger<TerminalController> _logger;
 
-        public TerminalController(AppDbContext db, ITerminalContextAccessor terminalCtxAccessor)
+        public TerminalController(AppDbContext db, ITerminalContextAccessor terminalCtxAccessor, IPhotoStoreService photoStoreService, ILogger<TerminalController> logger)
         {
             _db = db;
             _terminalCtxAccessor = terminalCtxAccessor;
+            _photoStoreService = photoStoreService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -115,7 +120,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
             await _db.SaveChangesAsync();
             await tx.CommitAsync();
 
-            // Cookie for your TerminalSessionMiddleware (raw token, not hash)
+            // Cookie for TerminalSessionMiddleware (raw token, not hash)
             Response.Cookies.Append(
                 TerminalSessionMiddleware.TokenName,
                 refreshToken,
@@ -143,39 +148,72 @@ namespace MedicineLog.Areas.Terminals.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(MedicineRegVm model, CancellationToken ct)
         {
-            if (model.Medicines.Count == 0)
-            {
-                ModelState.AddModelError(nameof(model.Medicines), "Lägg till minst ett läkemedel.");
-            }
+            var terminalCtx = _terminalCtxAccessor.Current!;
+            var savedPaths = new List<string>();
 
-            if (!ModelState.IsValid)
+            try
             {
+                throw new Exception();
+                if (model.Medicines.Count == 0)
+                    ModelState.AddModelError(nameof(model.Medicines), "Lägg till minst ett läkemedel.");
+
+                if (!ModelState.IsValid)
+                    return View(model);
+
+
+                // Store under terminal/site/date
+                var storeFolder = $"/site-{terminalCtx.SiteId}/terminal-{terminalCtx.TerminalId}/{DateTime.UtcNow:yyyyMMdd}";
+                var items = new List<MedicineLogEntryItem>();
+
+                foreach (var m in model.Medicines)
+                {
+                    var fullStorePath = await _photoStoreService.SaveAsync(m.Photo, storeFolder, ct);
+                    savedPaths.Add(fullStorePath);
+
+                    items.Add(new MedicineLogEntryItem
+                    {
+                        MedicineName = m.MedicineName.Trim(),
+                        Quantity = m.Quantity,
+                        PhotoPath = fullStorePath,
+                        PhotoContentType = m.Photo.ContentType ?? "application/octet-stream",
+                        PhotoLength = m.Photo.Length
+                    });
+                }
+
+                var entry = new MedicineLogEntry
+                {
+                    TerminalId = terminalCtx.TerminalId,
+                    SiteId = terminalCtx.SiteId,
+                    FirstName = model.FirstName.Trim(),
+                    LastName = model.LastName.Trim(),
+                    CreatedAt = DateTimeOffset.UtcNow,
+                    Items = items
+                };
+
+                await _db.MedicineLogEntries.AddAsync(entry, ct);
+                await _db.SaveChangesAsync(ct);
+
+                TempData["SavedOk"] = true;
+                return RedirectToAction(nameof(Register));
+            }
+            catch (Exception ex)
+            { 
+                _logger.LogError(ex, "Failed to register medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.TerminalId, terminalCtx?.SiteId);
+                // If anything fails after saving files, try to clean them up
+                try
+                {
+                    foreach (var p in savedPaths)
+                        await _photoStoreService.DeleteAsync(p, ct);
+                }
+                catch (Exception ex2)
+                {
+                    _logger.LogError(ex2, "Failed to clean up photo store after failed medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.TerminalId, terminalCtx?.SiteId);
+                }
+
+                ViewBag.ErrorMessage = $"Ett fel uppstod när din registrering skulle sparas. Försök igen, och kontakta annars administratören. \n\nDetaljer: {ex.Message}";
                 return View(model);
             }
-
-            var terminalCtx = _terminalCtxAccessor.Current!;
-
-            var entry = new MedicineLogEntry
-            {
-                TerminalId = terminalCtx.TerminalId,
-                SiteId = terminalCtx.SiteId,
-                FirstName = model.FirstName.Trim(),
-                LastName = model.LastName.Trim(),
-                CreatedAt = DateTimeOffset.UtcNow,
-                Items = model.Medicines.Select(m => new MedicineLogEntryItem
-                {
-                    MedicineName = m.MedicineName.Trim(),
-                    Quantity = m.Quantity!.Value
-                }).ToList()
-            };
-
-            await _db.MedicineLogEntries.AddAsync(entry);
-            await _db.SaveChangesAsync(ct);
-
-            TempData["SavedOk"] = true;
-            return RedirectToAction(nameof(Register));
         }
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

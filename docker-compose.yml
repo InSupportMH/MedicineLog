@@ -6,6 +6,8 @@ services:
       dockerfile: MedicineLog/Dockerfile
     environment:
       - TZ=${TIMEZONE}
+    volumes:
+      - ./photos:/photos
 
   postgres:
     image: pgautoupgrade/pgautoupgrade:17-bookworm
@@ -22,8 +24,6 @@ services:
       - default
 
 volumes:
-  signalCliApi_data:
-  influx_data:
   postgres_data:
   
 networks:

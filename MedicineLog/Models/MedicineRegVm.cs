@@ -13,7 +13,7 @@
         [Display(Name = "Antal")]
         [Required(ErrorMessage = "Antal saknas.")]
         [Range(1, 1000, ErrorMessage = "Gitligt antal: 1 - 1000.")]
-        public int? Quantity { get; set; }
+        public int Quantity { get; set; }
 
         [Required(ErrorMessage = "Bild saknas.")]
         public IFormFile Photo { get; set; } = default!;
