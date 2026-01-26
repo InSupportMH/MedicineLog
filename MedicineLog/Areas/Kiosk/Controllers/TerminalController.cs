@@ -153,7 +153,6 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
             try
             {
-                throw new Exception();
                 if (model.Medicines.Count == 0)
                     ModelState.AddModelError(nameof(model.Medicines), "Lägg till minst ett läkemedel.");
 
