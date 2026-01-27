@@ -98,7 +98,7 @@ app.Run();
 
 static X509Certificate2 CreateCert()
 {
-    var certPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggconnect.se.crt"));
-    var keyPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggconnect.se.key"));
+    var certPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggc-intermediate.crt"));
+    var keyPem = File.ReadAllText(Path.Combine(AppContext.BaseDirectory, "cert/tryggc.key"));
     return X509Certificate2.CreateFromPem(certPem, keyPem);
 }
