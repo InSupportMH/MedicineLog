@@ -77,7 +77,7 @@ public sealed class AuditController : Controller
                 (e.FirstName + " " + e.LastName).Trim(),
                 e.Items
                     .OrderBy(i => i.MedicineName)
-                    .Select(i => new AuditPdfItem(i.MedicineName, i.Quantity))
+                    .Select(i => new AuditPdfItem(i.MedicineName, i.Quantity, i.PhotoPath))
                     .ToList()
             ))
             .ToListAsync();

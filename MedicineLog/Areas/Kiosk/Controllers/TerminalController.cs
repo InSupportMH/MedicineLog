@@ -161,19 +161,19 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
 
                 // Store under terminal/site/date
-                var storeFolder = $"/site-{terminalCtx.SiteId}/terminal-{terminalCtx.TerminalId}/{DateTime.UtcNow:yyyyMMdd}";
+                var photoFolderRelPath = $"/site-{terminalCtx.SiteId}/terminal-{terminalCtx.TerminalId}/{DateTime.UtcNow:yyyyMMdd}";
                 var items = new List<MedicineLogEntryItem>();
 
                 foreach (var m in model.Medicines)
                 {
-                    var fullStorePath = await _photoStoreService.SaveAsync(m.Photo, storeFolder, ct);
-                    savedPaths.Add(fullStorePath);
+                    var photoRelPath = await _photoStoreService.SaveAsync(m.Photo, photoFolderRelPath, ct);
+                    savedPaths.Add(photoRelPath);
 
                     items.Add(new MedicineLogEntryItem
                     {
                         MedicineName = m.MedicineName.Trim(),
                         Quantity = m.Quantity,
-                        PhotoPath = fullStorePath,
+                        PhotoPath = photoRelPath,
                         PhotoContentType = m.Photo.ContentType ?? "application/octet-stream",
                         PhotoLength = m.Photo.Length
                     });

@@ -20,4 +20,4 @@ public sealed record AuditPdfEntry(
     IReadOnlyList<AuditPdfItem> Items
 );
 
-public sealed record AuditPdfItem(string MedicineName, int Quantity);
+public sealed record AuditPdfItem(string MedicineName, int Quantity, string PhotoPath);
