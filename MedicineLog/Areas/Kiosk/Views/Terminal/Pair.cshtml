@@ -1,7 +1,7 @@
 ﻿@model MedicineLog.Areas.Kiosk.Models.TerminalPairViewModel
 
 @{
-    ViewData["Title"] = "Para terminal";
+    ViewData["Title"] = "Parkoppla terminal";
     // Use the Area layout adapted for iPads:
     Layout = "_TerminalLayout"; // or "~/Areas/Terminal/Views/Shared/_TerminalLayout.cshtml"
 }
@@ -12,7 +12,7 @@
 
             <h1 class="display-6 mb-3">@ViewData["Title"]</h1>
             <p class="lead mb-4">
-                Ange parningskoden som administratören har skapat.
+                Ange koden som administratören har skapat.
             </p>
 
             <form asp-action="Pair" asp-controller="Terminal" asp-area="kiosk" method="post" class="card shadow-sm">
@@ -33,7 +33,7 @@
 
                     <div class="d-grid gap-2 mt-4">
                         <button type="submit" class="btn btn-primary btn-lg fs-3 py-3">
-                            Para
+                            Parkoppla
                         </button>
                     </div>
                 </div>
