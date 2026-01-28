@@ -7,7 +7,7 @@ services:
     environment:
       - TZ=${TIMEZONE}
     volumes:
-      - ./photos:/photos
+      - .medicineLog/photos:/app/photos
 
   postgres:
     image: pgautoupgrade/pgautoupgrade:17-bookworm

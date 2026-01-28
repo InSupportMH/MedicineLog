@@ -14,7 +14,10 @@
     @RenderSection("Head", required: false)
 </head>
 <body>
-    <img class="m-3 image-fluid logo-box" src="~/logo.png" />
+    <div class="m-3 d-flex justify-content-between">
+        <img class="image-fluid logo-box" src="~/logo.png" />
+        <partial name="_LogoutButton" />
+    </div>
     <div class="page-wrap">
         <main class="container">
             @RenderBody()

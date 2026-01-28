@@ -82,7 +82,7 @@ namespace MedicineLog.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction("Login", new { area = "Identity" });
+            return RedirectToAction("Login");
         }
 
         [HttpGet]

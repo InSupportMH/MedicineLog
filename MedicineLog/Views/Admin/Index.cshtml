@@ -6,10 +6,6 @@
 <div class="container mt-4">
     <h1>Admin</h1>
 
-    <div class="d-flex justify-content-end">
-        <partial name="_LogoutButton" />
-    </div>
-
     @if (TempData["Toast"] is string toast)
     {
         <div class="alert alert-info">@toast</div>
