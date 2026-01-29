@@ -246,7 +246,7 @@ namespace MedicineLog.Web.Controllers
         [HttpPost("terminals/{terminalId:int}/pair")]
         public async Task<IActionResult> IssuePairingCode(int terminalId, [FromForm] int minutesValid = 10)
         {
-            minutesValid = Math.Clamp(minutesValid, 1, 60);
+            //minutesValid = Math.Clamp(minutesValid, 1, 60);
 
             var terminal = await _db.Terminals.FirstOrDefaultAsync(t => t.Id == terminalId);
             if (terminal is null) return NotFound();

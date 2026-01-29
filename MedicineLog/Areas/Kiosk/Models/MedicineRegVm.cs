@@ -1,4 +1,4 @@
-﻿namespace MedicineLog.Models
+﻿namespace MedicineLog.Areas.Kiosk.Models
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

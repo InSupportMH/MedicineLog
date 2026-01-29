@@ -42,7 +42,7 @@
                             <span class="badge bg-secondary">Inaktiv</span>
                         }
                     </td>
-                    <td>@(t.LastSeenAt?.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
+                    <td>@(t.LastSeenAt?.ToLocalTime().DateTime.ToString("yyyy-MM-dd HH:mm") ?? "—")</td>
                     <td class="text-end">
                         <a class="btn btn-sm btn-outline-primary" asp-action="PairTerminal" asp-route-terminalId="@t.Id">Parkoppla</a>
 

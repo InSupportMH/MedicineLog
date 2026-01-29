@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace MedicineLog.Areas.Terminals.Controllers
 {
@@ -139,8 +140,14 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
         [RequirePairing]
         [HttpGet]
-        public IActionResult Register()
+        public async Task<IActionResult> Register(CancellationToken ct)
         {
+            //Update terminal last seen
+            var terminalCtx = _terminalCtxAccessor.Current!;
+            await _db.Terminals
+                .Where(t => t.Id == terminalCtx.TerminalId)
+                .ExecuteUpdateAsync(s => s.SetProperty(t => t.LastSeenAt, DateTimeOffset.UtcNow), ct);
+
             return View(new MedicineRegVm());
         }
 
@@ -159,6 +166,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
                 if (!ModelState.IsValid)
                     return View(model);
 
+                var now = DateTimeOffset.UtcNow;
 
                 // Store under terminal/site/date
                 var photoFolderRelPath = $"/site-{terminalCtx.SiteId}/terminal-{terminalCtx.TerminalId}/{DateTime.UtcNow:yyyyMMdd}";
@@ -185,11 +193,12 @@ namespace MedicineLog.Areas.Terminals.Controllers
                     SiteId = terminalCtx.SiteId,
                     FirstName = model.FirstName.Trim(),
                     LastName = model.LastName.Trim(),
-                    CreatedAt = DateTimeOffset.UtcNow,
+                    CreatedAt = now,
                     Items = items
                 };
 
                 await _db.MedicineLogEntries.AddAsync(entry, ct);
+
                 await _db.SaveChangesAsync(ct);
 
                 TempData["SavedOk"] = true;
@@ -197,7 +206,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
             }
             catch (Exception ex)
             { 
-                _logger.LogError(ex, "Failed to register medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.TerminalId, terminalCtx?.SiteId);
+                _logger.LogError(ex, "Failed to register medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.SiteId, terminalCtx?.TerminalId);
                 // If anything fails after saving files, try to clean them up
                 try
                 {
@@ -206,7 +215,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
                 }
                 catch (Exception ex2)
                 {
-                    _logger.LogError(ex2, "Failed to clean up photo store after failed medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.TerminalId, terminalCtx?.SiteId);
+                    _logger.LogError(ex2, "Failed to clean up photo store after failed medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.SiteId, terminalCtx?.TerminalId);
                 }
 
                 ViewBag.ErrorMessage = $"Ett fel uppstod när din registrering skulle sparas. Försök igen, och kontakta annars administratören. \n\nDetaljer: {ex.Message}";

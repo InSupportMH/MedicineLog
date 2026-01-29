@@ -21,8 +21,18 @@ namespace MedicineLog.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string? returnUrl = null)
+        public async Task<IActionResult> Login(string? returnUrl = null)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user != null)
+            {
+                // Role-based landing page if already logged in
+                var actionResult = await RedirectBasedOnRoles(user);
+                if (actionResult != null)
+                    return actionResult;
+            }
+
+            //Not logged in or lacking roles, stay on login page
             return View(new LoginVm { ReturnUrl = returnUrl });
         }
 
@@ -58,7 +68,7 @@ namespace MedicineLog.Controllers
             if (!string.IsNullOrWhiteSpace(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                 return Redirect(model.ReturnUrl);
 
-            // Role-based landing page
+            // Get user to determine role-based landing page
             var user = await _userManager.FindByNameAsync(email);
             if (user == null)
             {
@@ -66,14 +76,24 @@ namespace MedicineLog.Controllers
                 return View(model);
             }
 
+            var actionResult = await RedirectBasedOnRoles(user);
+            if (actionResult != null)
+                return actionResult;
+
+            // Fallback if no known role
+            ModelState.AddModelError(string.Empty, "Användarkontot saknar roller.");
+            return View(model);
+        }
+
+        private async Task<IActionResult?> RedirectBasedOnRoles(AppUser user)
+        {
             if (await _userManager.IsInRoleAsync(user, UserRoles.Admin))
                 return RedirectToAction("Index", "Admin", new { area = "" });
 
             if (await _userManager.IsInRoleAsync(user, UserRoles.Auditor))
-                return RedirectToAction("Index", "Audit", new { area = "" }); 
-
-            // Fallback if no known role
-            return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "Audit", new { area = "" });
+            
+            return null;
         }
 
         [HttpPost]
