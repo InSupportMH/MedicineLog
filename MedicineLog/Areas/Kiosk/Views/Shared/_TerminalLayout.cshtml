@@ -15,7 +15,7 @@
 </head>
 <body>
     <div class="page-wrap">
-        <main class="container">
+        <main class="m-4">
             @RenderBody()
         </main>
     </div>
@@ -28,25 +28,25 @@
 
 <style>
     body, input {
-        font-size: 32px !important;
+        font-size: 24px !important;
     }
 
-    .btn-lg {
-        font-size: 45px !important;
-        height: 10rem !important;
+    body .btn-lg {
+        font-size: 2rem !important;
+        height: 6rem !important;
         font-weight: 600 !important;
     }
 
     .btn {
+        font-size: 1.5rem !important;
         border-radius: 1rem !important;
-        height: 7rem !important;
-        font-size: 40px !important;
+        height: 4rem !important;
         --bs-btn-border-width: 3px !important;
     }
 
     input {
-        height: 5rem !important;
-        border: 0.05rem solid #000 !important;
+        height: 4rem !important;
+        border: 0.01rem solid #888 !important;
     }
 
     .btn-primary {
@@ -55,20 +55,16 @@
         border-color: #1861ac;
     }
 
-    .border-top {
-        border-top: 1px solid #e5e5e5;
-    }
-
-    .border-bottom {
-        border-bottom: 1px solid #e5e5e5;
-    }
-
     .box-shadow {
         box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
     }
 
     .logo-box {
-        width: 20rem;
+        width: 10rem;
+    }
+
+    .card {
+        background-color: #f7f7f7;
     }
 
 </style>

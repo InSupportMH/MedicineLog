@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>kioskSettings_v2</key>
+	<dict>
+
+		<!-- Remote Settings Control configuration exported from Kiosk Pro Basic, version 11.3, on 2026-01-29T08:35:12 CET -->
+
+		<!-- This file uses Kiosk Pro's current XML format for Remote Settings Control (see 'kioskSettings_v2' above), compatible with devices running app version 10.4 or later. If your project includes kiosks on older versions of the app, you can learn more about using our legacy format at kioskgroup.com/legacy-xml -->
+
+		<!-- Documentation for each setting and its possible values is available in our Knowledge Base at support.kioskgroup.com. A spreadsheet with these values is also maintained at kioskgroup.com/kiosk-pro-remote-settings -->
+
+		<!-- Show Settings
+			 0 = On App Launch or Relaunch from Background;
+			 1 = Never;
+			 2 = On Touch Gesture & Passcode;
+		-->
+		<key>settingsShowingOption</key>
+		<integer>2</integer>
+
+		<!-- Passcode (4 digit string) -->
+		<key>settingsPassCode</key>
+		<string>7154</string>
+
+		<!-- Support Contact -->
+		<key>kp_supportContactInformation</key>
+		<string>This setting is designed to point staff to a support contact and/or documentation for the project and is shown in the iOS/iPadOS settings for the app. If you are viewing this message in iOS/iPadOS settings, this has not been updated and you should reach out to your internal IT team if you need help with this device.</string>
+
+		<!-- Homepage -->
+		<key>homePage</key>
+		<string>https://medlog.tryggconnect.se/kiosk</string>
+
+		<!-- JavaScript API > Access JavaScript API
+			 0 = By Injection (Deprecated, Offline Only);
+			 1 = By Import;
+			 2 = Never;
+		-->
+		<key>accessJS_API</key>
+		<integer>2</integer>
+
+		<!-- Show iPad Status Bar -->
+		<key>showStatusBar</key>
+		<false/>
+
+		<!-- Show Address Bar -->
+		<key>showAddressBar</key>
+		<false/>
+
+		<!-- Navigation Bar > Show Navigation Bar -->
+		<key>showNavigationBar</key>
+		<false/>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Standard Icon Color
+			 0 = Red (255,46,46);
+			 1 = Yellow (255,193,26);
+			 2 = Green (11,211,24);
+			 3 = Blue (42,170,220);
+			 4 = Light Grey (229,229,229);
+			 5 = Dark Grey (133,133,133);
+			 6 = Black (35,35,35);
+			 7 = White (250,250,250);
+		-->
+		<key>navBarIconsColorScheme</key>
+		<string>4</string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Standard Bar Background Color (RGB) -->
+		<key>navBarBackgroundColor</key>
+		<string>84,84,84</string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Enable Quick Links -->
+		<key>customLinksEnabled</key>
+		<false/>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Show Quick Links
+			 0 = On All Pages;
+			 1 = On Homepage Only;
+		-->
+		<key>kp_showQuickLinksMode</key>
+		<integer>0</integer>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Button Background Color (RGB) -->
+		<key>clButtonBackgroundColor</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Text Color (RGB) -->
+		<key>clButtonTextColor</key>
+		<string>255,255,255</string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 1 > Label -->
+		<key>clLabel1</key>
+		<string>Quick Links</string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 1 > Link -->
+		<key>clLink1</key>
+		<string>https://support.kioskgroup.com/article/976-quick-links#custom-links</string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 2 > Label -->
+		<key>clLabel2</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 2 > Link -->
+		<key>clLink2</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 3 > Label -->
+		<key>clLabel3</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 3 > Link -->
+		<key>clLink3</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 4 > Label -->
+		<key>clLabel4</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 4 > Link -->
+		<key>clLink4</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 5 > Label -->
+		<key>clLabel5</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 5 > Link -->
+		<key>clLink5</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 6 > Label -->
+		<key>clLabel6</key>
+		<string></string>
+
+		<!-- Navigation Bar > Standard Navigation Bar > Quick Links > Group 6 > Link -->
+		<key>clLink6</key>
+		<string></string>
+
+		<!-- Show Progress Indicator -->
+		<key>showLoadingProgress</key>
+		<false/>
+
+		<!-- Loading & Default Background Color (RGB) or Image -->
+		<key>pageReloadBackgroundColor</key>
+		<string>255,255,255</string>
+
+		<!-- PDF Display > Show Thumbnails -->
+		<key>pdfShowThumbs</key>
+		<true/>
+
+		<!-- PDF Display > Show Page Numbers -->
+		<key>pdfShowPageNumbers</key>
+		<true/>
+
+		<!-- PDF Display > Background Color (RGB) or Image -->
+		<key>pdfBackgroundImageFile</key>
+		<string>0,0,0</string>
+
+		<!-- PDF Display > Page Transition Style
+			 0 = Scroll;
+			 1 = Page Turn;
+			 2 = Hyperlink Only;
+		-->
+		<key>pdfScrollingType</key>
+		<integer>0</integer>
+
+		<!-- PDF Display > Scroll Orientation
+			 0 = Horizontal;
+			 1 = Vertical;
+		-->
+		<key>pdfInfiniteScrollOrientation</key>
+		<integer>0</integer>
+
+		<!-- PDF Display > Size to Fit
+			 2 = Automatically Show Full Page;
+			 3 = Automatically Zoom to Fill Screen;
+			 0 = Horizontally;
+			 1 = Vertically;
+		-->
+		<key>pdfSizeToFitOption</key>
+		<integer>2</integer>
+
+		<!-- Pinch-to-Zoom Gestures > Standard Web Pages
+			 0 = Disable Zoom;
+			 1 = Allow Viewport To Control Zoom Through User-Scalable Property;
+			 2 = Always Allow Zoom (WKWebView Only);
+		-->
+		<key>kp_zoomWithStandardBrowserBehavior</key>
+		<integer>1</integer>
+
+		<!-- Pinch-to-Zoom Gestures > Disable Zoom on PDF Files -->
+		<key>pdfDisableZoom</key>
+		<false/>
+
+		<!-- Disable Touch -->
+		<key>viewOnly</key>
+		<false/>
+
+		<!-- Fix Window to Viewport -->
+		<key>disableWebViewBouncing</key>
+		<true/>
+
+		<!-- Idle Time Limit (seconds) -->
+		<key>idleTime</key>
+		<string>300</string>
+
+		<!-- Pause Idle Time Limit While Media is Playing -->
+		<key>kp_pauseIdleTimeLimitWhileMediaIsPlaying</key>
+		<false/>
+
+		<!-- Refresh Homepage (minutes) -->
+		<key>refreshTime</key>
+		<string>0</string>
+
+		<!-- Clear Cache on Content Refresh -->
+		<key>clearCache</key>
+		<false/>
+
+		<!-- Clear Local Storage on Content Refresh -->
+		<key>kp_clearLocalStorageOnHomepage</key>
+		<false/>
+
+		<!-- Clear Cookies & Session Storage on Content Refresh -->
+		<key>clearCookies</key>
+		<false/>
+
+		<!-- Clear Data on Relaunch & Remote Update -->
+		<key>kp_clearAppDataOnRelaunch</key>
+		<false/>
+
+		<!-- Allowed Domains -->
+		<key>kp_allowedDomains</key>
+		<string>medlog.tryggconnect.se</string>
+
+		<!-- Restricted Domains -->
+		<key>kp_restrictedDomains</key>
+		<string></string>
+
+		<!-- Apply Restrictions to Embedded Content -->
+		<key>kp_applyRestrictionsToEmbeddedContent</key>
+		<false/>
+
+		<!-- Show Blocked Request Alert -->
+		<key>showSiteMessage</key>
+		<true/>
+
+		<!-- Blocked Request Alert Text -->
+		<key>offDomainMessage</key>
+		<string>Sorry, this site is not allowed.</string>
+
+		<!-- Browsing Time Limit > Browsing Time Limit
+			 5 = 5 min;
+			 10 = 10 min;
+			 15 = 15 min;
+			 20 = 20 min;
+			 30 = 30 min;
+			 45 = 45 min;
+			 60 = 60 min;
+			 -1 = Forever;
+		-->
+		<key>browseTime</key>
+		<integer>-1</integer>
+
+		<!-- Browsing Time Limit > Custom Page for Browsing Time Limit Reached -->
+		<key>goodByePage</key>
+		<string></string>
+
+		<!-- Remote Settings Control > Enable Remote Settings Control -->
+		<key>remoteSettingsEnabled</key>
+		<false/>
+
+		<!-- Remote Settings Control > Settings XML File Location -->
+		<key>externalSettingsFile</key>
+		<string>https://medlog.tryggconnect.se/kiosk/settings.xml</string>
+
+		<!-- Remote Settings Control > Update Period (minutes) -->
+		<key>localSettingsUpdatePeriod</key>
+		<string>1</string>
+
+		<!-- Update Policies > Apply Updates
+			 0 = Immediately;
+			 1 = Delay While Idle Timer is Active;
+		-->
+		<key>kp_remoteUpdatePolicy</key>
+		<integer>1</integer>
+
+		<!-- Update Policies > Show Update Indicator -->
+		<key>kp_showRemoteUpdateIndicator</key>
+		<true/>
+
+		<!-- Update Policies > Update Indicator Text -->
+		<key>kp_remoteUpdateIndicatorMessage</key>
+		<string>Updating. . .</string>
+
+		<!-- Event Notifications > Enable Event Notifications > Power Supply Change -->
+		<key>emailOnPower</key>
+		<false/>
+
+		<!-- Event Notifications > Enable Event Notifications > Remote Update of Settings -->
+		<key>emailOnRemoteSettingsChange</key>
+		<false/>
+
+		<!-- Event Notifications > Send Event Notifications Through
+			 0 = SMTP Email Server;
+			 1 = Zapier Webhook;
+		-->
+		<key>kp_sendEventNotificationsThrough</key>
+		<integer>0</integer>
+
+		<!-- Event Notifications > SMTP Email Server > From Email -->
+		<key>smtpFromEmail</key>
+		<string>no-reply.tryggconnect.se</string>
+
+		<!-- Event Notifications > SMTP Email Server > To Email -->
+		<key>smtpToEmail</key>
+		<string>dev@insupport.se</string>
+
+		<!-- Event Notifications > SMTP Email Server > SMTP Server -->
+		<key>smtpServer</key>
+		<string>mailcluster.loopia.se</string>
+
+		<!-- Event Notifications > SMTP Email Server > SMTP Ports -->
+		<key>smtpPorts</key>
+		<string>465</string>
+
+		<!-- Event Notifications > SMTP Email Server > Requires Authentication -->
+		<key>smtpRequiresAuth</key>
+		<true/>
+
+		<!-- Event Notifications > SMTP Email Server > User Name -->
+		<key>smtpUserName</key>
+		<string>no-reply.tryggconnect.se</string>
+
+		<!-- Event Notifications > SMTP Email Server > Enable SSL -->
+		<key>smtpEnableSSL</key>
+		<true/>
+
+		<!-- Event Notifications > Zapier Webhook URL -->
+		<key>kp_zapierDefaultZapURL</key>
+		<string></string>
+
+		<!-- Screen Brightness > Brightness Level > Control Active Brightness Level -->
+		<key>kp_isControlBrightnessInKioskEnabled</key>
+		<true/>
+
+		<!-- Screen Brightness > Brightness Level -->
+		<key>manualControlOfBrightness</key>
+		<real>1</real>
+
+		<!-- Audio Output & Volume > Volume Control -->
+		<key>volumeControl</key>
+		<string></string>
+
+		<!-- Show Print Icon -->
+		<key>showPrintIcon</key>
+		<false/>
+
+		<!-- Enable AirPrint -->
+		<key>printEnabled</key>
+		<false/>
+
+		<!-- Advanced Settings > Browser Engine > Browser Engine
+			 1 = WKWebView (recommended);
+			 0 = UIWebView (legacy support);
+		-->
+		<key>kp_browserEngine</key>
+		<integer>1</integer>
+
+		<!-- Advanced Settings > Browser Engine > App Settings Specific to UIWebView > UIWebView Cookie Acceptance Policy
+			 0 = Never Accept;
+			 1 = Accept From Visited;
+			 2 = Always Accept;
+		-->
+		<key>cookieAcceptPolicy</key>
+		<integer>1</integer>
+
+		<!-- Advanced Settings > Browser Engine > App Settings Specific to UIWebView > Transform Links for Guided Access -->
+		<key>kp_transformLinksForGuidedAccess</key>
+		<true/>
+
+		<!-- Advanced Settings > Content > Enable Web Inspector -->
+		<key>kp_isWebInspectorEnabled</key>
+		<true/>
+
+		<!-- Advanced Settings > Display & Interaction > Allow Text Selection -->
+		<key>textSelection</key>
+		<false/>
+
+		<!-- Advanced Settings > Display & Interaction > Disable Touch Callouts -->
+		<key>_kp_disableDefaultCalloutShownWhenTouchAndHoldTarget_</key>
+		<true/>
+
+		<!-- Advanced Settings > Display & Interaction > Prevent iOS Drag & Drop -->
+		<key>_kp_disable_iOS_DragAndDrop_</key>
+		<true/>
+
+		<!-- Advanced Settings > Display & Interaction > Allow Automatic Focus -->
+		<key>kp_showKeyboardAutomaticallyOnFocusEvent</key>
+		<false/>
+
+		<!-- Advanced Settings > Display & Interaction > Allow Fullscreen API -->
+		<key>kp_allowFullscreenAPI</key>
+		<true/>
+
+		<!-- Advanced Settings > Display & Interaction > Reset UIScrollView Offset -->
+		<key>kp_scrollsContentBehavior_isScrollResetAfterKeyboardShownEnabled</key>
+		<false/>
+
+		<!-- Advanced Settings > Display & Interaction > UIScrollView Content Inset Adjustment Behavior
+			 0 = Never;
+			 1 = Automatic;
+			 2 = Scrollable Axes;
+			 3 = Always;
+		-->
+		<key>kp_scrollsContentBehavior_contentInsetAdjustmentBehavior</key>
+		<integer>0</integer>
+
+		<!-- Advanced Settings > Memory & Privacy > Ensure Cookies Are Loaded on Homepage -->
+		<key>kp_useFalseHomepage</key>
+		<false/>
+
+		<!-- Advanced Settings > Memory & Privacy > Share Crash Logs with Developer
+			 0 = Automatically;
+			 1 = Do not share;
+			 2 = Request permission on launch;
+		-->
+		<key>kp_collectCrashLogsForAnalysisOption</key>
+		<integer>0</integer>
+
+		<!-- Advanced Settings > Visitor Management > Allow Universal Links to Open Other Apps -->
+		<key>kp_allowUniversalLinksToOpenOtherApps</key>
+		<true/>
+
+		<!-- Advanced Settings > Visitor Management > Screen Asynchronous Requests with Allowed & Restricted Domains -->
+		<key>kp_allowRestrictAsynchronousURLRequests</key>
+		<true/>
+
+		<!-- Advanced Settings > Site Customization > Insert Homepage URL Parameters as JavaScript Variables
+			 0 = On Homepage Only;
+			 1 = Always;
+			 2 = Never;
+		-->
+		<key>kp_insertHomepageURLParametersAsJavaScriptVariables</key>
+		<integer>2</integer>
+
+		<!-- Advanced Settings > Remote Management > Settings Export Options > Remote Settings Control > Export Settings in Remote Settings Control Legacy Format -->
+		<key>kp_exportRemoteSettingsXMLInLegacyFormat</key>
+		<false/>
+
+		<!-- Advanced Settings > Remote Management > Settings Export Options > Comment Management > Include Commented Header Information -->
+		<key>kp_exportSettings_includeCommentedHeaderInformation</key>
+		<true/>
+
+		<!-- Advanced Settings > Remote Management > Settings Export Options > Comment Management > Include Commented Settings Names -->
+		<key>kp_exportSettings_includeCommentedSettingsNames</key>
+		<true/>
+
+		<!-- Advanced Settings > Remote Management > Settings Export Options > Size Management > Minimize File Size -->
+		<key>kp_exportSettings_minimizeFileSize</key>
+		<false/>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Monitor Internet Access While Idle -->
+		<key>showConnectionProblemPage</key>
+		<false/>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Internet Connection Timeout Interval [0.1..60] (seconds) -->
+		<key>kp_internetConnection_fromOffline_startCheckTimeoutInterval</key>
+		<string>0.5</string>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Alternate Homepage for Offline Use -->
+		<key>customConnectionProblemPage</key>
+		<string></string>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Page Loading Time Limit (seconds) -->
+		<key>pageLoadTime</key>
+		<string>120</string>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Allow Exceptions to HTTPS:// Security Protocols
+			 0 = Show Prompt;
+			 1 = Automatically (recommended only in restricted environments where all possible exceptions have been reviewed);
+			 2 = Never (any page with certificate errors will not load);
+		-->
+		<key>kp_promptToAllowHTTPSSecurityExceptionsInWKWebView</key>
+		<integer>0</integer>
+
+		<!-- Advanced Settings > Internet Access & Error Handling > Allow Connections over Deprecated TLS
+			 0 = Show Prompt;
+			 1 = Automatically;
+			 2 = Never;
+		-->
+		<key>kp_deprecatedTLSPolicyInWKWebView</key>
+		<integer>0</integer>
+
+		<!-- Advanced Settings > Troubleshooting > Log App Events -->
+		<key>kp_logMode</key>
+		<false/>
+
+		<!-- Remote Update Only > Generate Kiosk Commnad -->
+		<key>kp_setting_command_generateKioskID</key>
+		<string></string>
+
+		<!-- Remote Update Only > Send Context Info Command -->
+		<key>kp_setting_command_sendContextInfo</key>
+		<string></string>
+
+		<!-- Remote Update Only -->
+		<key>kp_authChallenge_performDefaultHandling_if_browser_not_loading_content</key>
+		<false/>
+
+		<!-- Remote Update Only > Use Native Browser PDF Viewer -->
+		<key>kp_useNativeBrowserPDFViewer</key>
+		<false/>
+
+		<!-- Remote Update Only -->
+		<key>kp_zapierRequestTimeout</key>
+		<string>60</string>
+
+		<!-- Remote Update Only -->
+		<key>kp_zapierAutoRetryDelay</key>
+		<string>10</string>
+
+		<!-- Remote Update Only > Enable Drop-down Menu Fix for iOS 8 -->
+		<key>kp_enableDropdownsForiOS8</key>
+		<true/>
+
+		<!-- Remote Update Only > Log All WebKit Requests -->
+		<key>kp_logAllWebKitRequests</key>
+		<false/>
+
+		<!-- Remote Update Only -->
+		<key>kp_disable_UIMenuAutoFill</key>
+		<true/>
+
+		<!-- Remote Update Only -->
+		<key>kp_warmingUpDelay</key>
+		<string>0</string>
+
+		<!-- Remote Update Only > Maximum Event Lifetime (seconds) -->
+		<key>kp_failedRequestLog_maximumEventLifetime</key>
+		<string>2592000</string>
+
+		<!-- Remote Update Only -->
+		<key>kp_reloadBrowserAfterSleepIfPageTitleUndefined</key>
+		<false/>
+
+		<!-- Remote Update Only > UIWebView Removal Warning Allowed -->
+		<key>_kp_isUIWebViewRemovalWarningAllowed</key>
+		<true/>
+
+		<!-- Remote Update Only > Totally Disable -->
+		<key>kp_monitorInternetAccessWhenIdle_totallyDisabled</key>
+		<false/>
+
+		<!-- Remote Update Only -->
+		<key>kp_placePresentationViewInsideSafeArea</key>
+		<true/>
+
+		<!-- Remote Update Only > Recovery Browser After Sleep -->
+		<key>kp_reloadBrowserAfterSleep</key>
+		<false/>
+
+		<!-- Remote Update Only > Check Timeout Interval From Online -->
+		<key>kp_internetConnection_fromOnline_checkTimeoutInterval</key>
+		<string>300</string>
+
+		<!-- Remote Update Only > Check Timeout Interval From Default Offline Page -->
+		<key>kp_internetConnection_fromDefaultOfflinePage_checkTimeoutInterval</key>
+		<string>30</string>
+
+		<!-- Remote Update Only > Timeout Interval For Remote Requests -->
+		<key>kp_internetConnection_timeoutIntervalForPollRequest</key>
+		<string>30</string>
+
+	</dict>
+</dict>
+</plist>

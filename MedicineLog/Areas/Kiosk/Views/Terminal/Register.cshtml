@@ -5,18 +5,16 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
-
-        <div class="mt-2 d-flex gap-5 align-items-start mb-5">
+    <div class="mb-5 mt-2">
+        <div class="d-flex gap-5 align-items-end">
             <img class="image-fluid logo-box" src="~/logo.png" />
-            <div class="mt-2">
-                <h1 class="h1 fw-bold">Välkommen!</h1>
-                <h2 class="text-secondary fw-semibold">Registrera medhavda läkemedel här.</h2>
-            </div>
+             @* <h2 class="h1 fw-bold">Välkommen!</h2> *@
         </div>
+        <h1 class="h1 mt-4 text-secondary fw-semibold">Registrera medhavda läkemedel här.</h1>
+    </div>
 
-
-        <form asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+    <form asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
     <div class="mb-4 card shadow-sm">
         <div class="card-body">
@@ -27,17 +25,13 @@
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
 
-                <div class="col-12 col-md-6">
+                <div class="col-12 col-md-6 mb-3">
                     <label asp-for="LastName" class="form-label fw-semibold"></label>
                     <input asp-for="LastName" class="form-control" autocomplete="off" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="mb-3 card shadow-sm">
-        <div class="card-body">
+    
             <div id="medicineList" class="vstack gap-3 mb-2">
                 @for (var i = 0; i < Model.Medicines.Count; i++)
                 {
@@ -51,16 +45,13 @@
                                 <input asp-for="Medicines[i].MedicineName" class="form-control" autocomplete="off" />
                             </div>
 
-                            <div class="flex-shrink-0" style="width: 8rem;">
+                            <div class="flex-shrink-0">
                                 <label asp-for="Medicines[i].Quantity" class="form-label fw-semibold"></label>
-                                <input asp-for="Medicines[i].Quantity" class="form-control" type="number" min="1" max="1000" value="1"/>
+                                <input asp-for="Medicines[i].Quantity" class="form-control" type="number" min="1" max="1000" inputmode="numeric" pattern="[0-9]*" value="1" />
                             </div>
 
-                                <div class="flex-shrink-0 ms-3" style="width: 8rem;">
-                                    <button type="button"
-                                            class="btn btn-outline-secondary photo-btn w-100"
-                                            aria-label="Ta bild"
-                                            title="Ta bild">
+                                <div class="flex-shrink-0 ms-2" style="width: 8rem;">
+                                    <button type="button" class="btn btn-secondary photo-btn w-100" aria-label="Ta bild" title="Ta bild">
                                         Ta bild
                                         <img class="photo-thumb d-none" alt="Förhandsvisning" />
                                     </button>
@@ -72,8 +63,8 @@
                                            capture="user"/>
                                 </div>
 
-                            <div class="flex-shrink-0 d-flex justify-content-end" style="width: 8rem;">
-                                <button type="button" class="d-none btn btn-outline-danger btn-sm btnRemoveMedicine" aria-label="Ta bort läkemedel" title="Ta bort" style="width: 100%;"> <i class="bi bi-trash"></i></button>
+                            <div class="flex-shrink-0 d-flex justify-content-end" style="width: 5rem;">
+                                <button type="button" class="d-none btn btn-danger btnRemoveMedicine" aria-label="Ta bort läkemedel" title="Ta bort" style="width: 100%;"> <i class="bi bi-trash"></i></button>
                             </div>
                         </div>
                         <span asp-validation-for="Medicines[i].MedicineName" class="text-danger"></span>
@@ -83,17 +74,17 @@
                 }
               
             </div>
-        </div>
-    </div>
-    <div class="d-flex justify-content-end">
-        <button type="button" class="btn btn-outline-primary btn-sm" id="btnAddMedicine">
+    <div class="mt-3 d-flex justify-content-start">
+        <button type="button" class="btn btn-secondary" id="btnAddMedicine">
             + Lägg till fler läkemedel
         </button>
+        </div>
+        </div>
     </div>
 
     <div class="mt-5">
         <button type="submit" class="btn btn-primary w-100 mb-3 btn-lg">Registrera</button>
-        <button type="button" class="btn btn-outline-secondary w-100 btn-lg" id="btnClear">Rensa</button>
+        <button type="button" class="btn btn-secondary w-100 btn-lg" id="btnClear">Rensa formulär</button>
     </div>
 </form>
 
