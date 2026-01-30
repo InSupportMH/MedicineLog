@@ -124,8 +124,15 @@ function addMedicineRow() {
 }
 
 function reparseValidation() {
+    const $form = $('#regForm');
+    if (!$form.length)
+        return;
+
     if (window.jQuery?.validator?.unobtrusive) {
-        jQuery.validator.unobtrusive.parse(list);
+        // IMPORTANT: renumbering changes name/id => cached rules become stale
+        $form.removeData('validator');
+        $form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse($form);
     }
 }
 
@@ -164,6 +171,8 @@ export function clearForm() {
 
     form?.querySelectorAll('.input-validation-error, .is-invalid, .is-valid')
         .forEach(el => el.classList.remove('input-validation-error', 'is-invalid', 'is-valid'));
+
+    reparseValidation();
 }
 
 // Clear button
