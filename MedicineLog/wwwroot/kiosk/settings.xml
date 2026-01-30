@@ -185,7 +185,7 @@
 			 2 = Always Allow Zoom (WKWebView Only);
 		-->
 		<key>kp_zoomWithStandardBrowserBehavior</key>
-		<integer>1</integer>
+		<integer>0</integer>
 
 		<!-- Pinch-to-Zoom Gestures > Disable Zoom on PDF Files -->
 		<key>pdfDisableZoom</key>
@@ -201,7 +201,7 @@
 
 		<!-- Idle Time Limit (seconds) -->
 		<key>idleTime</key>
-		<string>300</string>
+		<string>180</string>
 
 		<!-- Pause Idle Time Limit While Media is Playing -->
 		<key>kp_pauseIdleTimeLimitWhileMediaIsPlaying</key>
