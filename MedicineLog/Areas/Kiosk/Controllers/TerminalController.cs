@@ -7,6 +7,7 @@ using MedicineLog.Models;
 using MedicineLog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -144,9 +145,14 @@ namespace MedicineLog.Areas.Terminals.Controllers
         {
             //Update terminal last seen
             var terminalCtx = _terminalCtxAccessor.Current!;
-            await _db.Terminals
-                .Where(t => t.Id == terminalCtx.TerminalId)
-                .ExecuteUpdateAsync(s => s.SetProperty(t => t.LastSeenAt, DateTimeOffset.UtcNow), ct);
+            var terminal = await _db.Terminals
+                .Include(t => t.Site)
+                .SingleAsync(t => t.Id == terminalCtx.TerminalId);
+            terminal.LastSeenAt = DateTimeOffset.UtcNow;
+            await _db.SaveChangesAsync(ct);
+
+            ViewBag.SiteName = terminal.Site.Name;
+            ViewBag.TerminalName = terminal.Name;
 
             return View(new MedicineRegVm());
         }
@@ -160,11 +166,9 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
             try
             {
-                if (model.Medicines.Count == 0)
-                    ModelState.AddModelError(nameof(model.Medicines), "Lägg till minst ett läkemedel.");
 
                 if (!ModelState.IsValid)
-                    return View(model);
+                    return BadRequest(new { ok = false, validation = ToValidation(ModelState) });
 
                 var now = DateTimeOffset.UtcNow;
 
@@ -200,9 +204,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
                 await _db.MedicineLogEntries.AddAsync(entry, ct);
 
                 await _db.SaveChangesAsync(ct);
-
-                TempData["SavedOk"] = true;
-                return RedirectToAction(nameof(Register));
+                return Ok(new { ok = true });
             }
             catch (Exception ex)
             { 
@@ -218,15 +220,22 @@ namespace MedicineLog.Areas.Terminals.Controllers
                     _logger.LogError(ex2, "Failed to clean up photo store after failed medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.SiteId, terminalCtx?.TerminalId);
                 }
 
-                ViewBag.ErrorMessage = $"Ett fel uppstod när din registrering skulle sparas. Försök igen, och kontakta annars administratören. \n\nDetaljer: {ex.Message}";
-                return View(model);
+                return StatusCode(500, new
+                {
+                    ok = false,
+                    message = "Ett fel uppstod när registreringen behandlades. Försök igen och kontakta administratören om felet kvarstår."
+                });
             }
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        static Dictionary<string, string[]> ToValidation(ModelStateDictionary modelState)
         {
-            return View(new ErrorVm { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return modelState
+                .Where(kvp => kvp.Value?.Errors?.Count > 0)
+                .ToDictionary(
+                    kvp => kvp.Key,
+                    kvp => kvp.Value!.Errors.Select(e => string.IsNullOrWhiteSpace(e.ErrorMessage) ? "Ogiltigt värde." : e.ErrorMessage).ToArray()
+                );
         }
     }
 }
