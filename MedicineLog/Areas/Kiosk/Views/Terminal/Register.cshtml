@@ -135,6 +135,16 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    @* <script src="~/lib/jquery-validation/dist/localization/messages_sv.min.js"></script> *@
+    <script>
+  if (window.jQuery?.validator) {
+    $.extend($.validator.messages, {
+      min: $.validator.format("Ange ett antal som är större än eller lika med {0}."),
+      max: $.validator.format("Ange ett antal som är mindre än eller lika med {0}."),
+      range: $.validator.format("Ange ett värde mellan {0} och {1}.")
+    });
+  }
+</script>
     <script src="/js/reg-form-submission.js" type="module"></script>
     <script src="/js/reg-form-ui.js" type="module"></script>
 }
