@@ -4,7 +4,6 @@ using MedicineLog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace MedicineLog.Controllers
 {
@@ -92,7 +91,7 @@ namespace MedicineLog.Controllers
 
             if (await _userManager.IsInRoleAsync(user, UserRoles.Auditor))
                 return RedirectToAction("Index", "Audit", new { area = "" });
-            
+
             return null;
         }
 

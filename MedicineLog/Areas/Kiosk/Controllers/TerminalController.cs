@@ -3,14 +3,11 @@ using MedicineLog.Areas.Kiosk.Models;
 using MedicineLog.Data;
 using MedicineLog.Data.Entities;
 using MedicineLog.Infrastructure.Auth;
-using MedicineLog.Models;
 using MedicineLog.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace MedicineLog.Areas.Terminals.Controllers
 {
@@ -159,7 +156,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
         [RequirePairing]
         [HttpPost]
-        public async Task<IActionResult> Register([FromForm]MedicineRegVm model, CancellationToken ct)
+        public async Task<IActionResult> Register([FromForm] MedicineRegVm model, CancellationToken ct)
         {
             var terminalCtx = _terminalCtxAccessor.Current!;
             var savedPaths = new List<string>();
@@ -207,7 +204,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
                 return Ok(new { ok = true });
             }
             catch (Exception ex)
-            { 
+            {
                 _logger.LogError(ex, "Failed to register medicine log entry from site {SiteId}, terminal {TerminalId}.", terminalCtx?.SiteId, terminalCtx?.TerminalId);
                 // If anything fails after saving files, try to clean them up
                 try

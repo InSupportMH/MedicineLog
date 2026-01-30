@@ -1,11 +1,10 @@
-﻿using MedicineLog.Models;
-using MedicineLog.Data;
+﻿using MedicineLog.Data;
 using MedicineLog.Data.Entities;
+using MedicineLog.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace MedicineLog.Web.Controllers
 {
@@ -703,4 +702,3 @@ namespace MedicineLog.Web.Controllers
     }
 }
 
-    

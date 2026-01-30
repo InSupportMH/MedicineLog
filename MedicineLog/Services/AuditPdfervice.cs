@@ -1,6 +1,5 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
-using QuestPDF.Infrastructure;
 
 namespace MedicineLog.Services;
 
@@ -76,11 +75,11 @@ public sealed class AuditPdfService : IAuditPdfuService
                                     t.Cell().Text(item.MedicineName);
                                     t.Cell().AlignRight().Text(item.Quantity.ToString());
 
-                                        var absPhotoPath = Path.Combine(_rootPhotoPath, item.PhotoPath);
-                                        if (File.Exists(absPhotoPath))
-                                            t.Cell().Image(absPhotoPath);
-                                        else
-                                            t.Cell().AlignRight().Text("[Bild saknas]").Italic().FontColor(Colors.Red.Medium);
+                                    var absPhotoPath = Path.Combine(_rootPhotoPath, item.PhotoPath);
+                                    if (File.Exists(absPhotoPath))
+                                        t.Cell().Image(absPhotoPath);
+                                    else
+                                        t.Cell().AlignRight().Text("[Bild saknas]").Italic().FontColor(Colors.Red.Medium);
                                 }
                             });
                         });
