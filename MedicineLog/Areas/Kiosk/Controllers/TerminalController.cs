@@ -159,7 +159,7 @@ namespace MedicineLog.Areas.Terminals.Controllers
 
         [RequirePairing]
         [HttpPost]
-        public async Task<IActionResult> Register(MedicineRegVm model, CancellationToken ct)
+        public async Task<IActionResult> Register([FromForm]MedicineRegVm model, CancellationToken ct)
         {
             var terminalCtx = _terminalCtxAccessor.Current!;
             var savedPaths = new List<string>();

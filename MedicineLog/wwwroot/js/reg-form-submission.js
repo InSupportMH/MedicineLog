@@ -99,6 +99,9 @@ form.addEventListener('submit', async function (e) {
     e.preventDefault();
 
     clearServerErrors();
+
+    if (!$('#regForm').valid()) return;
+
     setBusy(true);
 
     try {

@@ -16,7 +16,7 @@
         <h1 class="h1 mt-4 text-secondary fw-semibold">Registrera medhavda läkemedel här.</h1>
     </div>
 
-<form id="regForm" asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+<form id="regForm" asp-action="Register" method="post" enctype="multipart/form-data" class="needs-validation">
     @Html.AntiForgeryToken()
 
     <div asp-validation-summary="ModelOnly" class="text-danger mb-3" id="validationSummary"></div>
@@ -62,7 +62,7 @@
                                     </button>
 
                                     <input asp-for="Medicines[i].Photo"
-                                           class="d-none medicine-photo-input"
+                                           class="medicine-photo-input"
                                            type="file"
                                            accept="image/*" 
                                            capture="user"/>
@@ -134,6 +134,7 @@
 </div>
 
 @section Scripts {
+    <partial name="_ValidationScriptsPartial" />
     <script src="/js/reg-form-submission.js" type="module"></script>
     <script src="/js/reg-form-ui.js" type="module"></script>
 }
@@ -156,17 +157,26 @@
         padding: 0;
     }
 
-        .photo-btn .photo-thumb {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+    .photo-btn .photo-thumb {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-        .photo-btn.has-photo i {
-            display: none; /* hide camera icon when photo exists */
-        }
+    .photo-btn.has-photo i {
+        display: none; /* hide camera icon when photo exists */
+    }
+
+    /* Make invisible without hiding for client-side validation to work */
+    .medicine-photo-input {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+        pointer-events: none;
+    }
 </style>
 
 
