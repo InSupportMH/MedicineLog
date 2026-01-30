@@ -106,7 +106,6 @@ function renumberAll() {
 }
 
 function addMedicineRow() {
-    console.log("addMedicineRow");
     const index = list.querySelectorAll('.medicine-item').length;
 
     const base = prototype ?? list.querySelector('.medicine-item')?.cloneNode(true);
@@ -116,7 +115,6 @@ function addMedicineRow() {
     normalizeItem(item, index, true);
 
     list.appendChild(item);
-
 }
 
 // Add
@@ -137,7 +135,6 @@ list.addEventListener('click', function (e) {
         addMedicineRow();
     } else {
         renumberAll();
-        //reparseValidation();
     }
 });
 
@@ -154,8 +151,6 @@ export function clearForm() {
 
     form?.querySelectorAll('.input-validation-error, .is-invalid, .is-valid')
         .forEach(el => el.classList.remove('input-validation-error', 'is-invalid', 'is-valid'));
-
-    //reparseValidation();
 }
 
 // Clear button
